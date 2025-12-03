@@ -1,5 +1,6 @@
 <template>
     <input
+        class="transition-theme"
         :placeholder="props.placeholder"
         :type="props.type"
     />
@@ -28,10 +29,6 @@ input {
     border: 1px solid transparent;
     color: var(--color-text);
     background-color: var(--color-secondary);
-    transition:
-        background-color 0.25s ease,
-        color 0.25s ease,
-        border-color 0.25s ease;
 }
 input:focus-visible {
     border-color: var(--color-text);
@@ -39,6 +36,5 @@ input:focus-visible {
 }
 input::placeholder {
     color: var(--color-placeholder);
-    transition: color 0.25s ease;
 }
 </style>

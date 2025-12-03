@@ -1,5 +1,6 @@
 <template>
     <button
+        class="transition-theme"
         type="button"
         @click="onClick"
     >

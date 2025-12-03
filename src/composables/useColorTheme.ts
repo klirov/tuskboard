@@ -1,5 +1,8 @@
+import { ref } from 'vue';
+
 const THEME_KEY = 'theme';
 export type Theme = 'light' | 'dark';
+const currentTheme = ref<Theme>('light');
 
 const root = document.documentElement;
 
@@ -19,19 +22,30 @@ function detectInitialTheme(): Theme {
     return 'light';
 }
 
-export function initTheme() {
+function initTheme() {
     const initial = detectInitialTheme();
     applyTheme(initial);
+    currentTheme.value = initial;
 }
 
-export function toggleTheme() {
+function toggleTheme() {
     const current = (root.getAttribute('data-theme') as Theme) || 'light';
     const next: Theme = current === 'light' ? 'dark' : 'light';
     applyTheme(next);
+    currentTheme.value = next;
 }
 
-export function getCurrentTheme(): Theme {
+function getCurrentTheme(): Theme {
     const current = root.getAttribute('data-theme');
     if (current === 'light' || current === 'dark') return current;
     return detectInitialTheme();
+}
+
+export function useColorTheme() {
+    return {
+        currentTheme,
+        initTheme,
+        toggleTheme,
+        getCurrentTheme,
+    };
 }

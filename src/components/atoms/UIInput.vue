@@ -21,12 +21,24 @@ const props = withDefaults(defineProps<InputProps>(), {
 <style scoped>
 input {
     width: 100%;
-    padding: 1em;
-    border: none;
+    height: max-content;
+    padding: 0.75em 1em;
+    border-radius: 1em;
+
+    border: 1px solid transparent;
+    color: var(--color-text);
     background-color: var(--color-secondary);
-    border-radius: 10px;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
 }
 input:focus-visible {
+    border-color: var(--color-text);
     outline: none;
+}
+input::placeholder {
+    color: var(--color-placeholder);
+    transition: color 0.25s ease;
 }
 </style>

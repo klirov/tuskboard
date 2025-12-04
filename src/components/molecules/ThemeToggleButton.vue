@@ -1,7 +1,7 @@
 <template>
     <UIButton
         @click="toggleTheme"
-        class="theme-toggle transition-color"
+        class="theme-toggle"
     >
         <Transition
             :name="transitionName"
@@ -26,13 +26,11 @@ import DarkThemeIcon from '../atoms/DarkThemeIcon.vue';
 
 const { toggleTheme, initTheme, currentTheme } = useColorTheme();
 
-const ToggleThemeIcon = computed(() => {
-    return currentTheme.value === 'light' ? LightThemeIcon : DarkThemeIcon;
-});
+const ToggleThemeIcon = computed(() =>
+    currentTheme.value === 'light' ? LightThemeIcon : DarkThemeIcon,
+);
 
-const transitionName = computed(() => {
-    return currentTheme.value === 'light' ? 'to-light' : 'to-dark';
-});
+const transitionName = computed(() => (currentTheme.value === 'light' ? 'to-light' : 'to-dark'));
 
 onMounted(() => initTheme());
 </script>

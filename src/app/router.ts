@@ -1,6 +1,6 @@
-import { createMemoryHistory, createRouter } from 'vue-router';
-import HomePage from '../components/pages/HomePage.vue';
-import LoginPage from '../components/pages/LoginPage.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from '../pages/HomePage.vue';
+import LoginPage from '../pages/LoginPage.vue';
 
 const routes = [
     { path: '/', component: HomePage },
@@ -8,6 +8,6 @@ const routes = [
 ];
 
 export const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     routes,
 });

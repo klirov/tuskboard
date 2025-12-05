@@ -5,7 +5,7 @@
         custom
         v-slot="{ href, navigate }"
     >
-        <UILink
+        <UiLink
             :href="href"
             :size="props.size"
             :rel="props.rel"
@@ -13,7 +13,7 @@
             @click="navigate"
         >
             <slot />
-        </UILink>
+        </UiLink>
     </RouterLink>
 
     <UiLink
@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { RouterLink, type RouteLocationRaw } from 'vue-router';
-import UiLink from '../atoms/UILink.vue';
+import UiLink from '../atoms/UiLink.vue';
 
 type AppLinkProps = {
     to?: RouteLocationRaw;

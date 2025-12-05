@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import UiInput, { type InputProps } from '../atoms/UIInput.vue';
+import UiInput, { type InputProps } from '../atoms/UiInput.vue';
 
 type LabeledInputProps = InputProps & {
     label?: string;
@@ -31,7 +31,7 @@ const { label, placeholder, type } = defineProps<LabeledInputProps>();
 <style scoped>
 label {
     color: var(--color-text);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
 }
 .labeled-input {
     display: flex;

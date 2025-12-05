@@ -9,9 +9,9 @@
 <script setup lang="ts">
 type InputTypes = 'text' | 'password' | 'email' | 'number';
 
-type InputProps = {
+export type InputProps = {
     placeholder?: string;
-    type: InputTypes;
+    type?: InputTypes;
 };
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<InputProps>(), {
 
 <style scoped>
 input {
-    width: 100%;
+    width: min(100%, 30em);
     height: max-content;
     padding: 0.75em 1em;
     border-radius: 1em;

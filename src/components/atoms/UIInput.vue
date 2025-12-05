@@ -3,6 +3,7 @@
         class="transition-theme"
         :placeholder="props.placeholder"
         :type="props.type"
+        v-model="model"
     />
 </template>
 
@@ -13,6 +14,8 @@ export type InputProps = {
     placeholder?: string;
     type?: InputTypes;
 };
+
+const model = defineModel<string>();
 
 const props = withDefaults(defineProps<InputProps>(), {
     type: 'text',

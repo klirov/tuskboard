@@ -12,12 +12,15 @@
             :id="id"
             :placeholder="placeholder"
             :type="type"
+            v-model="model"
         />
     </div>
 </template>
 
 <script setup lang="ts">
 import UiInput, { type InputProps } from '../atoms/UiInput.vue';
+
+const model = defineModel<string>()
 
 type LabeledInputProps = InputProps & {
     label?: string;

@@ -1,9 +1,9 @@
 <template>
-    <Input :type="'password'" />
+    <RouterView />
 </template>
 
 <script setup lang="ts">
-import Input from '../components/atoms/Input.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <style scoped></style>

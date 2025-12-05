@@ -1,5 +1,5 @@
 <template>
-    <UIButton
+    <UiButton
         @click="toggleTheme"
         class="theme-toggle"
     >
@@ -13,16 +13,16 @@
                 class="icon"
             />
         </Transition>
-    </UIButton>
+    </UiButton>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import UIButton from '../atoms/UIButton.vue';
+import UiButton from '../atoms/UIButton.vue';
 import { useColorTheme } from '../../composables/useColorTheme';
 
-import LightThemeIcon from '../atoms/LightThemeIcon.vue';
-import DarkThemeIcon from '../atoms/DarkThemeIcon.vue';
+import LightThemeIcon from '../atoms/icons/LightThemeIcon.vue';
+import DarkThemeIcon from '../atoms/icons/DarkThemeIcon.vue';
 
 const { toggleTheme, initTheme, currentTheme } = useColorTheme();
 

@@ -36,7 +36,7 @@ const sizeClass = computed(() => `ui-link--${props.size}`);
 <style scoped>
 .ui-link {
     color: var(--color-text);
-    text-decoration: none;
+    text-decoration: underline;
     font-size: inherit;
 }
 .ui-link:hover {

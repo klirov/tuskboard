@@ -1,11 +1,11 @@
 <template>
     <div>
-        <RegisterForm />
+        <LoginForm />
     </div>
 </template>
 
 <script setup lang="ts">
-import RegisterForm from '../components/organisms/RegisterForm.vue';
+import LoginForm from '../components/organisms/LoginForm.vue';
 </script>
 
 <style scoped>

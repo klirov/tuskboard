@@ -1,32 +1,43 @@
 <template>
-    <div class="registration-form">
-        <legend>Регистрация</legend>
-        <section class="inputs-section">
+    <AuthFormTemplate>
+        <template #title>
+            <h2>Регистрация</h2>
+        </template>
+        <template #inputs>
             <LabeledInput
                 label="Email"
                 type="email"
                 placeholder="cool-email@gmail.com"
                 v-model="emailInput"
-            />
+            ></LabeledInput>
             <LabeledInput
-                label="Password"
+                label="Пароль"
                 type="password"
                 placeholder="cool-password-54"
                 v-model="passwordInput"
-            />
-        </section>
-        <UiButton
-            size="m"
-            @click="register"
-            >Зарегистрироваться</UiButton
-        >
-    </div>
+            ></LabeledInput>
+        </template>
+        <template #hint>
+            У вас уже есть аккаунт?
+            <AppLink to="/login">Войти</AppLink>
+        </template>
+        <template #actions>
+            <UiButton
+                size="m"
+                @click="register"
+            >
+                Зарегистрироваться
+            </UiButton>
+        </template>
+    </AuthFormTemplate>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import UiButton from '../atoms/UIButton.vue';
+import AuthFormTemplate from '../molecules/AuthFormTemplate.vue';
 import LabeledInput from '../molecules/LabeledInput.vue';
+import AppLink from '../molecules/AppLink.vue';
+import UiButton from '../atoms/UIButton.vue';
 import { useAuth } from '../../composables/useAuth';
 
 const { registerUser } = useAuth();
@@ -38,30 +49,4 @@ function register() {
 }
 </script>
 
-<style scoped>
-.registration-form {
-    width: 25%;
-    height: 70%;
-    padding: 2rem;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    gap: 1rem;
-
-    background-color: var(--color-bg-secondary);
-    border-radius: 3rem;
-    box-shadow: 1px lightgray;
-}
-
-legend {
-    font-size: 2.5rem;
-}
-
-.inputs-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-}
-</style>
+<style scoped></style>

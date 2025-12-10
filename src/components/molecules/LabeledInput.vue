@@ -1,15 +1,25 @@
 <template>
     <div class="labeled-input">
-        <label
-            :for="id"
-            class="transition-color"
-        >
-            <slot>
-                {{ label }}
-            </slot>
-        </label>
+        <div class="label-wrapper">
+            <label
+                :for="id"
+                class="transition-color"
+            >
+                <slot>
+                    {{ label }}
+                </slot>
+            </label>
+            <p
+                v-if="error"
+                :id="`${id}-error`"
+                class="input-error transition-color"
+            >
+                {{ error }}
+            </p>
+        </div>
         <UiInput
             :id="id"
+            :aria-describedby="error ? `${id}-error` : undefined"
             :placeholder="placeholder"
             :type="type"
             v-model="model"
@@ -20,15 +30,16 @@
 <script setup lang="ts">
 import UiInput, { type InputProps } from '../atoms/UiInput.vue';
 
-const model = defineModel<string>()
+const model = defineModel<string>();
 
 type LabeledInputProps = InputProps & {
     label?: string;
+    error?: string;
 };
 
 const id: string = `input-${crypto.randomUUID()}`;
 
-const { label, placeholder, type } = defineProps<LabeledInputProps>();
+const { label, placeholder, type, error } = defineProps<LabeledInputProps>();
 </script>
 
 <style scoped>
@@ -41,5 +52,14 @@ label {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
+}
+.label-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.input-error {
+    font-size: 0.875rem;
+    color: red;
 }
 </style>

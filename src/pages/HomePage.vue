@@ -1,7 +1,7 @@
 <template>
     <div>
         <ThemeToggleButton />
-        <AppLink to="/login">Стандартная ссылка на внутреннюю страницу логина</AppLink>
+        <AppLink to="/register">Авторизация</AppLink>
     </div>
 </template>
 

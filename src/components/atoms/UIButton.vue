@@ -1,6 +1,7 @@
 <template>
     <button
         :class="['transition-theme', `button--${props.size}`]"
+        :style="{ width: props.width }"
         type="button"
         @click="onClick"
     >
@@ -20,9 +21,11 @@ function onClick(event: MouseEvent) {
 const props = withDefaults(
     defineProps<{
         size?: 'xs' | 's' | 'm' | 'l' | 'xl';
+        width?: string;
     }>(),
     {
         size: 'm',
+        width: undefined,
     },
 );
 </script>
@@ -30,8 +33,6 @@ const props = withDefaults(
 <style scoped>
 button {
     cursor: pointer;
-    width: max-content;
-    height: max-content;
     padding: 0.75rem 1rem;
     border: none;
     background-color: var(--color-accent);

@@ -22,8 +22,10 @@
 
 <style scoped>
 .auth-form {
-    width: max-content;
+    width: 100%;
+    max-width: 500px;
     height: max-content;
+    min-height: 75%;
     padding: 4rem 5rem;
 
     display: flex;
@@ -34,6 +36,7 @@
 
     background-color: var(--color-bg-secondary);
     border-radius: 2rem;
+    margin-inline: auto;
 }
 
 .auth-form__header {
@@ -41,6 +44,8 @@
 }
 
 .auth-form__inputs {
+    width: 100%;
+
     display: flex;
     flex-direction: column;
     gap: 0.875rem;

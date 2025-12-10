@@ -8,18 +8,19 @@
                 label="Email"
                 type="email"
                 placeholder="cool-email@gmail.com"
+                :error="formErrors?.email"
                 v-model="emailInput"
             ></LabeledInput>
             <LabeledInput
                 label="Пароль"
                 type="password"
                 placeholder="cool-password-54"
+                :error="formErrors?.password"
                 v-model="passwordInput"
             ></LabeledInput>
         </template>
         <template #hint>
-            У вас уже есть аккаунт?
-            <AppLink to="/login">Войти</AppLink>
+            У вас уже есть аккаунт?&nbsp;<AppLink to="/login">Войти</AppLink>
         </template>
         <template #actions>
             <UiButton
@@ -39,13 +40,17 @@ import LabeledInput from '../molecules/LabeledInput.vue';
 import AppLink from '../molecules/AppLink.vue';
 import UiButton from '../atoms/UIButton.vue';
 import { useAuth } from '../../composables/useAuth';
+import type { Field } from '../../composables/useApi';
 
 const { registerUser } = useAuth();
 const emailInput = ref<string>('');
 const passwordInput = ref<string>('');
 
-function register() {
-    registerUser(emailInput.value, passwordInput.value);
+const formErrors = ref<Partial<Record<Field, string>> | null>(null);
+
+async function register() {
+    const errors = await registerUser(emailInput.value, passwordInput.value);
+    formErrors.value = errors;
 }
 </script>
 

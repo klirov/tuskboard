@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { RowDataPacket } from "mysql2";
-import { type AppEnv, type PublicUser } from "../../../shared/types";
+import { AppEnv, PublicUser } from "../../../shared/types";
 import { pool } from "../db";
 import { ok } from "../utils/apiResponse";
 

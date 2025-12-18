@@ -1,12 +1,11 @@
 import { Hono } from "hono";
 import {
-    ApiResponse,
     AppEnv,
     LoginIncomingData,
     PublicUser,
     RegisterIncomingData,
     User,
-} from "../types";
+} from "../../../shared/types";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { pool } from "../db";
 import { hashPassword, verifyPassword } from "../password";

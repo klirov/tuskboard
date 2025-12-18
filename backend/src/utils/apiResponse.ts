@@ -1,4 +1,4 @@
-import type { ApiResponse } from "../types";
+import type { ApiResponse } from "../../../shared/types";
 
 export function ok<T>(data: T, status = 200): ApiResponse<T> {
     return {

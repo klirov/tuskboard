@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { registerUserRoutes } from "./routes/users";
 import { registerAuthRoutes } from "./routes/auth";
-import { AppEnv } from "./types";
+import { AppEnv } from "../../shared/types";
 
 const app = new Hono<AppEnv>();
 

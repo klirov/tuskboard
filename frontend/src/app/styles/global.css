@@ -1,0 +1,54 @@
+@import './reset.css';
+
+:root[data-theme='light'] {
+    --color-bg: #f5f4f8;
+    --color-secondary: #e9e7ef;
+    --color-accent: #a1bca9;
+    --color-text: #1f1d28;
+    --color-placeholder: rgba(31 29 40 0.4);
+}
+
+:root[data-theme='dark'] {
+    --color-bg: #16151d;
+    --color-bg-secondary: #1f1d28;
+    --color-secondary: #181620;
+    --color-accent: #a1bca9;
+    --color-text: #ffffff;
+    --color-placeholder: rgba(255, 255, 255, 0.4);
+}
+
+/** Стандартные настройки приложения */
+
+html {
+    font-size: clamp(12px, 0.7vw + 10px, 16px);
+}
+
+body {
+    font-size: 1rem;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+/** Утилитарные классы для анимирования смены темы */
+
+.transition-color {
+    transition: color 0.25s ease;
+}
+
+.transition-bg-color {
+    transition: background-color 0.25s ease;
+}
+
+.transition-border-color {
+    transition: border-color 0.25s ease;
+}
+
+.transition-theme {
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease;
+}

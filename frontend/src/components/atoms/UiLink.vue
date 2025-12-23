@@ -1,9 +1,9 @@
 <template>
     <a
-        :href="props.href"
+        :href
         :rel="relComputed"
-        :target="props.target"
-        :class="['ui-link', 'transition-color', `ui-link--${props.size}`]"
+        :target
+        :class="['ui-link', 'transition-color', `ui-link--${size}`]"
     >
         <slot />
     </a>

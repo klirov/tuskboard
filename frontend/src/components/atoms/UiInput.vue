@@ -1,8 +1,8 @@
 <template>
     <input
         class="transition-theme"
-        :placeholder="props.placeholder"
-        :type="props.type"
+        :placeholder
+        :type
         v-model="model"
     />
 </template>

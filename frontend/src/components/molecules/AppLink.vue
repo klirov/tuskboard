@@ -1,15 +1,15 @@
 <template>
     <RouterLink
-        v-if="props.to"
-        :to="props.to"
+        v-if="to"
+        :to
         custom
         v-slot="{ href, navigate }"
     >
         <UiLink
-            :href="href"
-            :size="props.size"
-            :rel="props.rel"
-            :target="props.target"
+            :href
+            :size
+            :rel
+            :target
             @click="navigate"
         >
             <slot />
@@ -18,10 +18,10 @@
 
     <UiLink
         v-else
-        :href="props.href!"
-        :size="props.size"
-        :target="props.target"
-        :rel="props.rel"
+        :href="href!"
+        :size
+        :target
+        :rel
     >
         <slot />
     </UiLink>

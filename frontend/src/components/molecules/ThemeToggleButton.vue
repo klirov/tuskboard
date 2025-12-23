@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import UiButton from '../atoms/UIButton.vue';
+import UiButton from '../atoms/UiButton.vue';
 import { useColorTheme } from '../../composables/useColorTheme';
 
 import LightThemeIcon from '../atoms/icons/LightThemeIcon.vue';

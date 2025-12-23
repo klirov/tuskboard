@@ -39,7 +39,7 @@ import { ref } from 'vue';
 import AuthFormTemplate from '../molecules/AuthFormTemplate.vue';
 import LabeledInput from '../molecules/LabeledInput.vue';
 import AppLink from '../molecules/AppLink.vue';
-import UiButton from '../atoms/UIButton.vue';
+import UiButton from '../atoms/UiButton.vue';
 import { useAuth } from '../../composables/useAuth';
 import { useRegle } from '@regle/core';
 import { email, minLength, required } from '@regle/rules';

@@ -1,7 +1,8 @@
 import { storeToRefs } from 'pinia';
-import { useUserStore, type User } from '../stores/useUserStore';
+import { useUserStore } from '../stores/useUserStore';
 import { useRouter } from 'vue-router';
 import { useApi } from './useApi';
+import type { User } from '../../../shared/types';
 
 const URL = 'http://localhost:3000';
 

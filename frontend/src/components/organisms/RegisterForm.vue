@@ -10,14 +10,14 @@
                 placeholder="cool-email@gmail.com"
                 :error="submitted ? r$.email.$errors[0] : undefined"
                 v-model="formData.email"
-            ></LabeledInput>
+            />
             <LabeledInput
                 label="Пароль"
                 type="password"
                 placeholder="cool-password-54"
                 :error="submitted ? r$.password.$errors[0] : undefined"
                 v-model="formData.password"
-            ></LabeledInput>
+            />
         </template>
         <template #hint>
             У вас уже есть аккаунт?&nbsp;<AppLink to="/login">Войти</AppLink>
@@ -25,6 +25,7 @@
         <template #actions>
             <UiButton
                 size="m"
+                width="12rem"
                 @click="register"
             >
                 Зарегистрироваться

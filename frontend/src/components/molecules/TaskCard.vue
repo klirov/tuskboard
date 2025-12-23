@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Task } from '../../../../shared/types';
-import { makeHueFromId } from '../../utils/CardColor';
+import { makeHueFromId } from '../../utils/GenerateCardColors';
 import TaskTag from '../atoms/TaskTag.vue';
 
 const props = defineProps<{ task: Task }>();

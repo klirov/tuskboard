@@ -7,8 +7,8 @@ import type { User } from '../../../shared/types';
 const URL = 'http://localhost:3000';
 
 export function useAuth() {
-    const $userStore = useUserStore();
-    const { user } = storeToRefs($userStore);
+    const userStore = useUserStore();
+    const { user } = storeToRefs(userStore);
     const { requestApi } = useApi();
     const router = useRouter();
 

@@ -20,8 +20,8 @@
         <UiInput
             :id="id"
             :aria-describedby="error ? `${id}-error` : undefined"
-            :placeholder="placeholder"
-            :type="type"
+            :placeholder
+            :type
             v-model="model"
         />
     </div>
@@ -39,7 +39,7 @@ type LabeledInputProps = InputProps & {
 
 const id: string = `input-${crypto.randomUUID()}`;
 
-const { label, placeholder, type, error } = defineProps<LabeledInputProps>();
+defineProps<LabeledInputProps>();
 </script>
 
 <style scoped>

@@ -12,7 +12,7 @@ export const useTasksStore = defineStore('tasks', () => {
         loading.value = true;
 
         try {
-            const response = await fetch(`${URL}/${userId}`);
+            const response = await fetch(`${URL}/tasks/${userId}`);
             if (response.ok) {
                 const data = await response.json();
                 tasks.value = data.data;

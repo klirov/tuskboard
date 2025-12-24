@@ -11,12 +11,12 @@
         >
             Tags:
             <TaskTag
-                v-for="(tag, index) in task?.tags"
+                v-for="(tag, index) in task.tags"
                 :key="index"
                 :tag
             />
         </div>
-        <small>Created: {{ task.created_at }}</small>
+        <small>Created: {{ createdAt }}</small>
     </div>
 </template>
 
@@ -32,6 +32,13 @@ const cardBackground = computed<string>(() => {
     const hue = makeHueFromId(props.task.id);
     return `hsl(${hue}, 70%, 85%)`;
 });
+
+const createdAt = computed<string>(() => {
+    return new Date(props.task.created_at).toLocaleString('en-US', {
+        dateStyle: 'medium',
+        timeStyle: 'medium',
+    });
+});
 </script>
 
 <style scoped>
@@ -40,7 +47,10 @@ const cardBackground = computed<string>(() => {
     flex-direction: column;
     gap: 0.5rem;
 
+    width: 100%;
+
     padding: 1rem;
     border-radius: 0.5rem;
+    color: var(--text-color);
 }
 </style>

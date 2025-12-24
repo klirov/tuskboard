@@ -18,7 +18,7 @@ export function registerTasksRoutes(app: Hono<AppEnv>) {
         }
 
         const [rows] = await pool.query<RowDataPacket[]>(
-            'SELECT id, title, description, tags, status FROM tasks WHERE user_id = ? ORDER BY id',
+            'SELECT * FROM tasks WHERE user_id = ? ORDER BY id',
             [userId],
         );
 

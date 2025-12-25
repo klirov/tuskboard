@@ -1,16 +1,19 @@
 import { storeToRefs } from 'pinia';
 import { useUserStore } from '../stores/useUserStore';
-import { useRouter } from 'vue-router';
+import { type Router } from 'vue-router';
 import { useApi } from './useApi';
 import type { User } from '../../../shared/types';
 
 const URL = 'http://localhost:3000';
 
-export function useAuth() {
+/**
+ * 
+ * @param router 
+ */
+export function useAuth(router: Router) {
     const userStore = useUserStore();
     const { user } = storeToRefs(userStore);
     const { requestApi } = useApi();
-    const router = useRouter();
 
     async function registerUser(email: string, password: string) {
         try {

@@ -18,7 +18,7 @@ app.use(pinia);
 app.use(router);
 
 const { initTheme } = useColorTheme();
-const { fetchMe } = useAuth();
+const { fetchMe } = useAuth(router);
 
 await fetchMe();
 initTheme();

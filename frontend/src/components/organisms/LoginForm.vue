@@ -42,9 +42,11 @@ import AppLink from '../molecules/AppLink.vue';
 import UiButton from '../atoms/UiButton.vue';
 import { useAuth } from '../../composables/useAuth';
 import { useRegle } from '@regle/core';
+import { useRouter } from 'vue-router';
 import { email, minLength, required } from '@regle/rules';
 
-const { verifyUser } = useAuth();
+const router = useRouter();
+const { verifyUser } = useAuth(router);
 
 const formData = ref({
     email: '',

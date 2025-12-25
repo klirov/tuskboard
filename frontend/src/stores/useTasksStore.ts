@@ -1,11 +1,16 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { type Task } from '../../../shared/types';
+import type { Status, Task } from '../../../shared/types';
 
 const URL = 'http://localhost:3000';
 
 export const useTasksStore = defineStore('tasks', () => {
-    const tasks = ref<Task[]>([]);
+    const tasksByStatus = ref<Record<Status, Task[]>>({
+        'to-do': [],
+        'in-progress': [],
+        'awaiting': [],
+        'done': [],
+    });
     const loading = ref<boolean>(false);
 
     async function getUserTasks(userId: number) {
@@ -14,8 +19,17 @@ export const useTasksStore = defineStore('tasks', () => {
         try {
             const response = await fetch(`${URL}/tasks/${userId}`);
             if (response.ok) {
-                const data = await response.json();
-                tasks.value = data.data;
+                const res = await response.json();
+                const groupedTasks = res.data.reduce(
+                    (acc: Record<Status, Task[]>, task: Task) => {
+                        const status = task.status || 'to-do';
+                        acc[status] = acc[status] || [];
+                        acc[status].push(task);
+                        return acc;
+                    },
+                    {} as Record<Status, Task[]>,
+                );
+                tasksByStatus.value = groupedTasks;
             }
         } catch {
             throw new Error('Failed to fetch tasks');
@@ -25,8 +39,8 @@ export const useTasksStore = defineStore('tasks', () => {
     }
 
     return {
-        tasks,
+        tasksByStatus,
         loading,
-        getUserTasks
+        getUserTasks,
     };
 });

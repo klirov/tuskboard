@@ -8,7 +8,7 @@ export function stringHash(str: string) {
 
 export function tagColor(tag: string): string {
     const hue = stringHash(tag) % 360;
-    return `hsl(${hue}, 70%, 85%)`;
+    return `hsl(${hue}, 50%, 90%)`;
 }
 
 export function makeHueFromId(id: number): number {

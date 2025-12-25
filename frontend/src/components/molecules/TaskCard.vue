@@ -1,22 +1,26 @@
 <template>
-    <div
-        class="task-card"
-        :style="{ 'background-color': cardBackground }"
-    >
-        <h3>{{ task.title }}</h3>
-        <p v-if="task.description">{{ task.description }}</p>
-        <div
-            class="tags"
-            v-if="task.tags?.length"
+    <div class="task-card">
+        <header
+            class="title-wrapper"
+            :style="{ 'background-color': cardBackground }"
         >
-            Tags:
-            <TaskTag
-                v-for="(tag, index) in task.tags"
-                :key="index"
-                :tag
-            />
+            <h3>{{ task.title }}</h3>
+        </header>
+        <div class="card-content">
+            <p v-if="task.description">{{ task.description }}</p>
+            <div
+                class="tags"
+                v-if="task.tags?.length"
+            >
+                Tags:
+                <TaskTag
+                    v-for="(tag, index) in task.tags"
+                    :key="index"
+                    :tag
+                />
+            </div>
+            <small>Created: {{ createdAt }}</small>
         </div>
-        <small>Created: {{ createdAt }}</small>
     </div>
 </template>
 
@@ -33,7 +37,7 @@ const cardBackground = computed<string>(() => {
     return `hsl(${hue}, 70%, 85%)`;
 });
 
-const createdAt = computed<string>(() => {
+const createdAt = computed<ReturnType<typeof Date>>(() => {
     return new Date(props.task.created_at).toLocaleString('en-US', {
         dateStyle: 'medium',
         timeStyle: 'medium',
@@ -49,8 +53,31 @@ const createdAt = computed<string>(() => {
 
     width: 100%;
 
-    padding: 1rem;
     border-radius: 0.5rem;
-    color: var(--text-color);
+    color: var(--color-text);
+    background-color: var(--color-bg-secondary);
+}
+
+.title-wrapper {
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: inherit;
+    color: var(--color-card-text);
+
+    box-shadow: 0 3px 4px -2px rgba(0, 0, 0, 0.18);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    padding: 0.5rem 1rem;
+}
+
+.tags {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 </style>

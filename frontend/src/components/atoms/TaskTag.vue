@@ -3,7 +3,7 @@
         class="transition-color"
         :style="{ 'background-color': tagColor(tag) }"
     >
-        <p>{{ tag }}</p>
+        <p>{{ tag.toUpperCase() }}</p>
     </div>
 </template>
 
@@ -24,9 +24,11 @@ div {
     padding: 0.25rem;
     border-radius: 0.25rem;
 
-    color: var(--color-text);
+    color: var(--color-card-text);
 }
+
 p {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 </style>

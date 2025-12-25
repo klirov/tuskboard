@@ -2,10 +2,12 @@
 
 :root[data-theme='light'] {
     --color-bg: #f5f4f8;
+    --color-bg-secondary: #efefef;
     --color-secondary: #e9e7ef;
     --color-accent: #a1bca9;
     --color-text: #1f1d28;
     --color-placeholder: rgba(31 29 40 0.4);
+    --color-card-text: #2c2c44;
 }
 
 :root[data-theme='dark'] {
@@ -15,9 +17,10 @@
     --color-accent: #a1bca9;
     --color-text: #ffffff;
     --color-placeholder: rgba(255, 255, 255, 0.4);
+    --color-card-text: #2c2c44;
 }
 
-/** Стандартные настройки приложения */
+/*? Стандартные настройки приложения */
 
 html {
     font-size: clamp(12px, 0.7vw + 10px, 16px);
@@ -32,7 +35,7 @@ body {
         color 0.25s ease;
 }
 
-/** Утилитарные классы для анимирования смены темы */
+/*? Утилитарные классы для анимирования смены темы */
 
 .transition-color {
     transition: color 0.25s ease;

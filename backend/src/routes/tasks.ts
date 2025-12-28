@@ -55,6 +55,38 @@ export function registerTasksRoutes(app: Hono<AppEnv>) {
         }
     });
 
+    app.put('/tasks/:taskId', async (c) => {
+        const taskId = c.req.param('taskId');
+
+        const [existing] = await pool.query<RowDataPacket[]>(
+            'SELECT * FROM tasks WHERE id = ? LIMIT 1',
+            [taskId],
+        );
+
+        if (!existing.length) {
+            return c.json(fail('Task not found', 404));
+        }
+
+        const body = await c.req.json<Partial<Task>>();
+        const existingTask = existing[0] as Task;
+
+        const title = body.title?.trim() ?? existingTask.title;
+        const description = body.description?.trim() ?? existingTask.description;
+        const tags = body.tags ? JSON.stringify(body.tags) : JSON.stringify(existingTask.tags)
+        const status = body.status ?? existingTask.status;
+
+        try {
+            const [result] = await pool.query<ResultSetHeader>(
+                'UPDATE tasks SET title = ?, description = ?, tags = ?, status = ? WHERE id = ?',
+                [title, description, tags, status, taskId],
+            );
+            if (result.affectedRows === 1) return c.json(ok(result));
+        } catch (error) {
+            console.error(error);
+            return c.json(fail('Failed to update task', 500));
+        }
+    });
+
     app.delete('/tasks/:taskId', async (c) => {
         const taskId = c.req.param('taskId');
 

@@ -16,10 +16,17 @@ textarea {
     width: 100%;
     min-height: 6rem;
     padding: 1rem;
+
     border-radius: 1em;
     font-size: 1rem;
+
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+
     resize: vertical;
+}
+textarea:focus-visible {
+    outline: none;
 }
 </style>

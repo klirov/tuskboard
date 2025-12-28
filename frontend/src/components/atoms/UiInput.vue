@@ -29,12 +29,11 @@ input {
     padding: 0.75em 1em;
     border-radius: 1em;
 
-    border: 1px solid transparent;
+    border: 1px solid var(--color-border);
     color: var(--color-text);
     background-color: var(--color-secondary);
 }
 input:focus-visible {
-    border-color: var(--color-text);
     outline: none;
 }
 input::placeholder {

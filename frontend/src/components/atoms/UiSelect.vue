@@ -1,9 +1,8 @@
 <template>
-    <select>
+    <select v-model="model">
         <option
             v-for="(option, index) in options"
             :key="index"
-            :value="option"
         >
             {{ option }}
         </option>
@@ -11,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
+const model = defineModel<string>();
+
 defineProps<{
     options: string[];
 }>();
@@ -20,10 +21,16 @@ defineProps<{
 select {
     width: 100%;
     padding: 0.5rem;
+
     font-size: 1rem;
     border-radius: 0.25em;
+    border: 1px solid var(--color-border);
+
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: var(--color-secondary);
+}
+select:focus-visible {
+    outline: none;
 }
 option {
     color: var(--color-text);

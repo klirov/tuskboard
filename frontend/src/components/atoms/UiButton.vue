@@ -58,8 +58,10 @@ button {
 
     border-radius: 1em;
 
-    display: grid;
-    place-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 .button--xs {
     font-size: 0.5rem;

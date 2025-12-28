@@ -1,11 +1,5 @@
 import { ref } from 'vue';
-
-export type ApiResponse<T> = {
-    ok: boolean;
-    status: number;
-    data: T;
-    message?: string;
-};
+import type { ApiResponse } from '../../../shared/types';
 
 export type Field = 'email' | 'password';
 

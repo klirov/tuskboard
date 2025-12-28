@@ -12,22 +12,23 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = withDefaults(
-    defineProps<{
-        size?: 'xs' | 's' | 'm' | 'l' | 'xl';
-        width?: string;
-        height?: string;
-        padding?: string;
-        aspectRatio?: string;
-        boxShadow?: string;
-    }>(),
-    {
-        size: 'm',
-        padding: undefined,
-        aspectRatio: undefined,
-        boxShadow: undefined,
-    },
-);
+export type ButtonProps = {
+    size?: 'xs' | 's' | 'm' | 'l' | 'xl';
+    width?: string;
+    height?: string;
+    padding?: string;
+    aspectRatio?: string;
+    boxShadow?: string;
+    backgroundColor?: string;
+};
+
+const props = withDefaults(defineProps<ButtonProps>(), {
+    size: 'm',
+    padding: undefined,
+    aspectRatio: undefined,
+    boxShadow: undefined,
+    backgroundColor: undefined,
+});
 
 const buttonStyles = computed(() => {
     return {
@@ -36,6 +37,7 @@ const buttonStyles = computed(() => {
         padding: props.padding ?? '0.75rem 1.5rem',
         'aspect-ratio': props.aspectRatio,
         'box-shadow': props.boxShadow,
+        'background-color': props.backgroundColor,
     };
 });
 

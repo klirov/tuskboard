@@ -48,8 +48,8 @@ onMounted(() => initTheme());
 :deep(.to-light-enter-active),
 :deep(.to-light-leave-active) {
     transition:
-        opacity 0.25s ease,
-        transform 0.25s ease;
+        opacity 0.125s ease,
+        transform 0.125s ease;
 }
 
 :deep(.to-light-enter-from) {
@@ -73,8 +73,8 @@ onMounted(() => initTheme());
 :deep(.to-dark-enter-active),
 :deep(.to-dark-leave-active) {
     transition:
-        opacity 0.25s ease,
-        transform 0.25s ease;
+        opacity 0.125s ease,
+        transform 0.125s ease;
 }
 
 :deep(.to-dark-enter-from) {

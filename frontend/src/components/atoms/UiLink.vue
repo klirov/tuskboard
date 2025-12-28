@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-type LinkProps = {
+export type LinkProps = {
     href: string;
     target?: '_self' | '_blank' | '_parent' | '_top';
     rel?: string;

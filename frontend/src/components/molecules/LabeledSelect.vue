@@ -15,6 +15,7 @@
         <UiSelect
             :id="id"
             :options="options"
+            :title="title"
             :aria-describedby="error ? `${id}-error` : undefined"
             v-model="model"
         />
@@ -23,16 +24,18 @@
 
 <script setup lang="ts">
 import UiSelect from '../atoms/UiSelect.vue';
+import type { SelectProps } from '../atoms/UiSelect.vue';
 
 const id = crypto.randomUUID();
 
 const model = defineModel<string>();
 
-defineProps<{
+type LabeledSelectProps = SelectProps & {
     label?: string;
     error?: string;
-    options: string[];
-}>();
+};
+
+defineProps<LabeledSelectProps>();
 </script>
 
 <style scoped>
@@ -50,7 +53,7 @@ header {
 }
 
 .error-message {
-    color: red;
+    color: var(--color-danger);
     font-size: 0.875rem;
 }
 </style>

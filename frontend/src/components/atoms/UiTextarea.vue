@@ -8,7 +8,11 @@
 <script setup lang="ts">
 const model = defineModel<string>();
 
-defineProps<{ placeholder?: string }>();
+export type TextareaProps = {
+    placeholder?: string;
+}
+
+defineProps<TextareaProps>();
 </script>
 
 <style scoped>

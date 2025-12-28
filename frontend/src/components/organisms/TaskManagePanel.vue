@@ -8,6 +8,7 @@
             v-if="editingTask"
             :editingTask="editingTask"
             @submit="emits('editTask', $event)"
+            @deleteTask="emits('deleteTask', $event)"
         />
         <TaskCreatingForm v-else />
     </aside>
@@ -17,11 +18,13 @@
 import type { Task } from '../../../../shared/types';
 import UiButton from '../atoms/UiButton.vue';
 import TaskEditForm from './TaskEditForm.vue';
+import TaskCreatingForm from './TaskCreatingForm.vue';
 
 const props = defineProps<{ editingTask: Task | null }>();
 
 const emits = defineEmits<{
     (e: 'editTask', updatedTask: Task): void;
+    (e: 'deleteTask', taskId: number): void;
     (e: 'request:close'): void;
 }>();
 </script>
@@ -38,7 +41,7 @@ const emits = defineEmits<{
     z-index: 1000;
 }
 .panel::after {
-    content: "";
+    content: '';
     position: absolute;
     right: 0;
     top: 0;
@@ -57,5 +60,15 @@ const emits = defineEmits<{
     padding: 1rem;
 
     background-color: var(--color-secondary);
+}
+.panel-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1rem;
 }
 </style>

@@ -32,7 +32,7 @@ const statusComputed = computed<string>(() => {
     color: var(--color-text);
 }
 .toast--error {
-    background-color: red;
+    background-color: var(--color-danger);
 }
 .toast--success {
     background-color: green;

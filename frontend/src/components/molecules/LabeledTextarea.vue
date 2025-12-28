@@ -22,17 +22,18 @@
 </template>
 
 <script setup lang="ts">
-import UiTextarea from '../atoms/UiTextarea.vue';
+import UiTextarea, { type TextareaProps } from '../atoms/UiTextarea.vue';
 
 const id = crypto.randomUUID();
 
 const model = defineModel<string>();
 
-defineProps<{
+export type LabeledTextareaProps = TextareaProps & {
     label?: string;
-    placeholder?: string;
     error?: string;
-}>();
+};
+
+defineProps<LabeledTextareaProps>();
 </script>
 
 <style scoped>
@@ -50,7 +51,7 @@ header {
 }
 
 .error-message {
-    color: red;
+    color: var(--color-danger);
     font-size: 0.875rem;
 }
 </style>

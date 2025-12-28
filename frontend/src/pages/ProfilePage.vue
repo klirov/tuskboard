@@ -4,6 +4,7 @@
             v-if="isManagingTask"
             :editingTask="editingTask"
             @request:close="toggleTaskManager"
+            @deleteTask="tryToDeleteTask($event)"
             @editTask="tryToEditTask($event)"
         />
     </Transition>
@@ -13,34 +14,34 @@
             <BoardColumn
                 title="Backlog"
                 :tasks="tasksByStatus['backlog']"
-                :loading
+                :loading="loading"
                 @request:edit="toggleTaskManager"
-                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
-                @dnd:globally="editTask($event)"
+                @dnd:locally="moveTasksLocally($event)"
+                @dnd:globally="moveTask($event)"
             />
             <BoardColumn
                 title="To Do"
                 :tasks="tasksByStatus['to-do']"
-                :loading
+                :loading="loading"
                 @request:edit="toggleTaskManager"
-                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
-                @dnd:globally="editTask($event)"
+                @dnd:locally="moveTasksLocally($event)"
+                @dnd:globally="moveTask($event)"
             />
             <BoardColumn
                 title="In Progress"
                 :tasks="tasksByStatus['in-progress']"
-                :loading
+                :loading="loading"
                 @request:edit="toggleTaskManager"
-                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
-                @dnd:globally="editTask($event)"
+                @dnd:locally="moveTasksLocally($event)"
+                @dnd:globally="moveTask($event)"
             />
             <BoardColumn
                 title="Awaiting"
                 :tasks="tasksByStatus['awaiting']"
-                :loading
+                :loading="loading"
                 @request:edit="toggleTaskManager"
-                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
-                @dnd:globally="editTask($event)"
+                @dnd:locally="moveTasksLocally($event)"
+                @dnd:globally="moveTask($event)"
             />
         </template>
     </BoardTemplate>
@@ -64,9 +65,29 @@ const userStore = useUserStore();
 const { tasksByStatus, loading, editingTask, isManagingTask } = storeToRefs(tasksStore);
 const { user } = storeToRefs(userStore);
 
-const { getUserTasks, toggleTaskManager, editTask, moveTasksLocally } = tasksStore;
+const { getUserTasks, toggleTaskManager, editTask, deleteTask, moveTasksLocally } = tasksStore;
 
 const { showNotification } = useNotifications();
+
+async function moveTask(task: Partial<Task>) {
+    try {
+        await editTask(task);
+    } catch (error) {
+        showNotification('error', 'Failed to move task.');
+    }
+}
+
+async function tryToDeleteTask(taskId: number) {
+    try {
+        await deleteTask(taskId);
+
+        toggleTaskManager();
+
+        if (user.value) await getUserTasks(user.value.id);
+    } catch {
+        showNotification('error', 'Failed to delete task.');
+    }
+}
 
 async function tryToEditTask(updatedTask: Partial<Task>) {
     try {
@@ -75,7 +96,7 @@ async function tryToEditTask(updatedTask: Partial<Task>) {
         toggleTaskManager();
 
         if (user.value) await getUserTasks(user.value.id);
-    } catch (error) {
+    } catch {
         showNotification('error', 'Failed to edit task. Please try again.');
     }
 }

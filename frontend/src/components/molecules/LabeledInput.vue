@@ -57,6 +57,6 @@ header {
 }
 .input-error {
     font-size: 0.875rem;
-    color: red;
+    color: var(--color-danger);
 }
 </style>

@@ -6,7 +6,7 @@ import { useApi } from '../composables/useApi';
 const URL = 'http://localhost:3000';
 
 export const useTasksStore = defineStore('tasks', () => {
-    const { requestApi, loading } = useApi();
+    const { requestApi } = useApi();
 
     const tasksByStatus = ref<Record<Status, Task[]>>({
         backlog: [],
@@ -15,8 +15,10 @@ export const useTasksStore = defineStore('tasks', () => {
         awaiting: [],
         done: [],
     });
+    const loading = ref<boolean>(false);
 
     async function getUserTasks(userId: number) {
+        loading.value = true;
         try {
             const data = await requestApi<Task[]>(`${URL}/tasks/${userId}`);
             if (data) {
@@ -31,6 +33,8 @@ export const useTasksStore = defineStore('tasks', () => {
             }
         } catch (error) {
             console.error('Error fetching tasks:', error);
+        } finally {
+            loading.value = false;
         }
     }
 
@@ -64,18 +68,18 @@ export const useTasksStore = defineStore('tasks', () => {
         editingTask.value = task || null;
     }
 
-    function moveTasksLocally(taskId: number, from: Status, to: Status) {
-        const fromArr = tasksByStatus.value[from];
-        const toArr = tasksByStatus.value[to];
+    function moveTasksLocally(data: { taskId: number; from: Status; to: Status }) {
+        const fromArr = tasksByStatus.value[data.from];
+        const toArr = tasksByStatus.value[data.to];
 
-        const index = fromArr.findIndex((t) => t.id === taskId);
+        const index = fromArr.findIndex((t) => t.id === data.taskId);
         if (index === -1) return;
 
         const removed = fromArr.splice(index, 1);
         const task = removed[0];
         if (!task) return;
 
-        task.status = to;
+        task.status = data.to;
         toArr.unshift(task);
     }
 

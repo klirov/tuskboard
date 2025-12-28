@@ -28,13 +28,25 @@
             />
             <LabeledSelect
                 label="Status"
+                title="Choose a status:"
                 v-model="localTask.status"
                 :error="r$?.status?.$errors[0]"
                 :options="['backlog', 'to-do', 'in-progress', 'awaiting']"
                 aria-required="true"
             />
         </fieldset>
-        <UiButton type="submit">Save Changes</UiButton>
+        <div class="buttons">
+            <UiButton class="submit-button" type="submit">Save Changes</UiButton>
+
+            <UiButton
+                @click="emits('deleteTask', localTask.id)"
+                backgroundColor="var(--color-danger)"
+                width="max-content"
+                padding="0.875rem"
+            >
+                <TrashcanIcon class="icon" />
+            </UiButton>
+        </div>
     </form>
 </template>
 
@@ -44,6 +56,7 @@ import LabeledInput from '../molecules/LabeledInput.vue';
 import { maxLength, minLength, required } from '@regle/rules';
 import LabeledTextarea from '../molecules/LabeledTextarea.vue';
 import LabeledSelect from '../molecules/LabeledSelect.vue';
+import TrashcanIcon from '../atoms/icons/TrashcanIcon.vue';
 import type { Task } from '../../../../shared/types';
 import { nextTick, ref, useTemplateRef, watch } from 'vue';
 import UiButton from '../atoms/UiButton.vue';
@@ -52,6 +65,7 @@ const props = defineProps<{ editingTask: Task | null }>();
 
 const emits = defineEmits<{
     (e: 'submit', updatedTask: Task): void;
+    (e: 'deleteTask', taskId: number): void;
 }>();
 
 const titleInput = useTemplateRef<InstanceType<typeof LabeledInput>>('titleInput');
@@ -106,5 +120,21 @@ fieldset {
     border: none;
     padding: 0;
     margin: 0;
+}
+.buttons {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 0.5rem;
+}
+.submit-button {
+    width: 100%;
+}
+.icon {
+    width: 1rem;
+    color: var(--color-text);
 }
 </style>

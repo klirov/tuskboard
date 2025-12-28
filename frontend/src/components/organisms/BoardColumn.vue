@@ -5,9 +5,10 @@
         </header>
         <h2 v-if="loading">Loading tasks...</h2>
         <draggable
-            v-else
-            v-model="internalTasks"
+            v-if="tasks"
+            v-model="props.tasks"
             :group="'tasks'"
+            :animation="250"
             item-key="id"
             @change="onChange"
             class="tasks-list"
@@ -19,6 +20,7 @@
                 />
             </template>
         </draggable>
+        <h2 v-else>No tasks yet...</h2>
     </div>
 </template>
 
@@ -26,7 +28,6 @@
 import Draggable from 'vuedraggable';
 import type { Status, Task } from '../../../../shared/types';
 import TaskCard from '../organisms/TaskCard.vue';
-import { ref, watch } from 'vue';
 
 const props = defineProps<{
     title: string;
@@ -39,15 +40,6 @@ const emits = defineEmits<{
     (e: 'dnd:locally', data: { taskId: number; from: Status; to: Status }): void;
     (e: 'dnd:globally', task: { id: number; status: Status }): void;
 }>();
-
-const internalTasks = ref([...props.tasks]);
-
-watch(
-    () => props.tasks,
-    (value) => {
-        internalTasks.value = [...value];
-    },
-);
 
 function onChange(e: any) {
     const { moved, added, removed } = e;
@@ -97,6 +89,7 @@ function onChange(e: any) {
 
 .tasks-list {
     width: 100%;
+    min-height: 5rem;
 
     display: flex;
     flex-direction: column;

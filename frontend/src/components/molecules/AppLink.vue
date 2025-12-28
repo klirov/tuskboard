@@ -29,14 +29,10 @@
 
 <script setup lang="ts">
 import { RouterLink, type RouteLocationRaw } from 'vue-router';
-import UiLink from '../atoms/UiLink.vue';
+import UiLink, { type LinkProps } from '../atoms/UiLink.vue';
 
-type AppLinkProps = {
+type AppLinkProps = LinkProps & {
     to?: RouteLocationRaw;
-    href?: string;
-    target?: '_self' | '_blank' | '_parent' | '_top';
-    rel?: string;
-    size?: 'small' | 'medium' | 'large' | 'inherit';
 };
 
 const props = withDefaults(defineProps<AppLinkProps>(), {

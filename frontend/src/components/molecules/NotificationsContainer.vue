@@ -38,8 +38,8 @@ const { notifications } = useNotifications();
 .toast-slide-enter-active,
 .toast-slide-leave-active {
     transition:
-        transform 0.3s ease,
-        opacity 0.3s ease;
+        transform 0.25s ease,
+        opacity 0.25s ease;
 }
 
 .toast-slide-enter-to,

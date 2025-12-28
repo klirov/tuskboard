@@ -1,14 +1,7 @@
-import { ref } from 'vue';
 import type { ApiResponse } from '../../../shared/types';
 
-export type Field = 'email' | 'password';
-
 export function useApi() {
-    const loading = ref<boolean>(false);
-
     async function requestApi<T>(url: string, init?: RequestInit): Promise<T> {
-        loading.value = true;
-
         try {
             const response = await fetch(url, {
                 credentials: 'include',
@@ -25,13 +18,10 @@ export function useApi() {
             }
 
             return body.data as T;
-        } finally {
-            loading.value = false;
+        } catch (err) {
+            throw new Error(String(err));
         }
     }
 
-    return {
-        loading,
-        requestApi,
-    };
+    return { requestApi };
 }

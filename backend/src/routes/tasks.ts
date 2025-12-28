@@ -54,4 +54,26 @@ export function registerTasksRoutes(app: Hono<AppEnv>) {
             return c.json(fail('Failed to create task', 500));
         }
     });
+
+    app.delete('/tasks/:taskId', async (c) => {
+        const taskId = c.req.param('taskId');
+
+        const [existing] = await pool.query<RowDataPacket[]>(
+            'SELECT id FROM tasks WHERE id = ? LIMIT 1',
+            [taskId],
+        );
+
+        if (!existing.length) {
+            return c.json(fail('Task not found', 404));
+        }
+
+        try {
+            const [result] = await pool.query<ResultSetHeader>('DELETE FROM tasks WHERE id = ?', [
+                taskId,
+            ]);
+            if (result.affectedRows === 1) return c.json(ok(result));
+        } catch (error) {
+            return c.json(fail('Failed to delete task', 500));
+        }
+    });
 }

@@ -48,6 +48,8 @@ const createdAt = computed<ReturnType<typeof Date>>(() => {
 
 <style scoped>
 .task-card {
+    cursor: grab;
+
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -56,6 +58,6 @@ const createdAt = computed<ReturnType<typeof Date>>(() => {
 
     border-radius: 0.5rem;
     color: var(--color-text);
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-secondary);
 }
 </style>

@@ -1,35 +1,78 @@
 <template>
     <div class="column">
         <header class="title">
-            <h2 v-if="loading">Загрузка задач...</h2>
             <h2>{{ title }}</h2>
         </header>
-        <ul>
-            <li
-                v-for="task in tasks"
-                :key="task.id"
-            >
-                <TaskCard :task="task" />
-            </li>
-        </ul>
+        <h2 v-if="loading">Loading tasks...</h2>
+        <draggable
+            v-else
+            v-model="internalTasks"
+            :group="'tasks'"
+            item-key="id"
+            @change="onChange"
+            class="tasks-list"
+        >
+            <template #item="{ element }">
+                <TaskCard
+                    :task="element"
+                    @request:edit="emits('request:edit', element)"
+                />
+            </template>
+        </draggable>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { Task } from '../../../../shared/types';
-import TaskCard from '../molecules/TaskCard.vue';
+import Draggable from 'vuedraggable';
+import type { Status, Task } from '../../../../shared/types';
+import TaskCard from '../organisms/TaskCard.vue';
+import { ref, watch } from 'vue';
 
-defineProps<{
+const props = defineProps<{
     title: string;
     loading: boolean;
     tasks: Task[];
 }>();
+
+const emits = defineEmits<{
+    (e: 'request:edit', task: Task): void;
+    (e: 'dnd:locally', data: { taskId: number; from: Status; to: Status }): void;
+    (e: 'dnd:globally', task: { id: number; status: Status }): void;
+}>();
+
+const internalTasks = ref([...props.tasks]);
+
+watch(
+    () => props.tasks,
+    (value) => {
+        internalTasks.value = [...value];
+    },
+);
+
+function onChange(e: any) {
+    const { moved, added, removed } = e;
+
+    if (moved) return;
+    if (removed) return;
+    if (added) {
+        const task = added.element as Task;
+        const newStatus = props.title.toLowerCase().replace(' ', '-') as Status;
+        const oldStatus = task.status;
+
+        if (newStatus === oldStatus) return;
+
+        emits('dnd:locally', { taskId: task.id, from: oldStatus, to: newStatus });
+
+        emits('dnd:globally', { id: task.id, status: newStatus });
+    }
+}
 </script>
 
 <style scoped>
 .column {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     color: var(--color-text);
 
@@ -39,6 +82,8 @@ defineProps<{
 }
 
 .title {
+    width: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,23 +91,16 @@ defineProps<{
 
     border-radius: 0.5rem;
 
-    background-color: var(--color-bg-secondary);
+    box-shadow: 0 0 0 0.5px var(--color-border);
+    background-color: var(--color-secondary);
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-
+.tasks-list {
     width: 100%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-
-    li {
-        width: 100%;
-    }
 }
 </style>

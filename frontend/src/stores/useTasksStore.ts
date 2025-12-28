@@ -20,16 +20,14 @@ export const useTasksStore = defineStore('tasks', () => {
         try {
             const data = await requestApi<Task[]>(`${URL}/tasks/${userId}`);
             if (data) {
-                const groupedTasks = data.reduce(
-                    (acc, task) => {
-                        const status = task.status || 'to-do';
-                        acc[status] = acc[status] || [];
-                        acc[status].push(task);
-                        return acc;
-                    },
-                    {} as Record<Status, Task[]>,
-                );
-                tasksByStatus.value = groupedTasks;
+                for (const status in tasksByStatus.value) {
+                    tasksByStatus.value[status as Status] = [];
+                }
+
+                for (const task of data) {
+                    const status = task.status || 'to-do';
+                    tasksByStatus.value[status].push(task);
+                }
             }
         } catch (error) {
             console.error('Error fetching tasks:', error);
@@ -46,10 +44,11 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
-    async function editTask(taskId: number, taskData: Partial<Task>) {
+    async function editTask(taskData: Partial<Task>) {
         try {
-            await requestApi(`${URL}/tasks/${taskId}`, {
+            await requestApi(`${URL}/tasks/${taskData.id}`, {
                 method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(taskData),
             });
         } catch (error) {
@@ -60,14 +59,24 @@ export const useTasksStore = defineStore('tasks', () => {
     const editingTask = shallowRef<Task | null>(null);
     const isManagingTask = ref<boolean>(false);
 
-    function openTaskManager(task: Task) {
-        editingTask.value = task;
-        isManagingTask.value = true;
+    function toggleTaskManager(task?: Task) {
+        isManagingTask.value = !isManagingTask.value;
+        editingTask.value = task || null;
     }
 
-    function closeTaskManager() {
-        editingTask.value = null;
-        isManagingTask.value = false;
+    function moveTasksLocally(taskId: number, from: Status, to: Status) {
+        const fromArr = tasksByStatus.value[from];
+        const toArr = tasksByStatus.value[to];
+
+        const index = fromArr.findIndex((t) => t.id === taskId);
+        if (index === -1) return;
+
+        const removed = fromArr.splice(index, 1);
+        const task = removed[0];
+        if (!task) return;
+
+        task.status = to;
+        toArr.unshift(task);
     }
 
     return {
@@ -78,7 +87,7 @@ export const useTasksStore = defineStore('tasks', () => {
         editTask,
         editingTask,
         isManagingTask,
-        openTaskManager,
-        closeTaskManager
+        toggleTaskManager,
+        moveTasksLocally,
     };
 });

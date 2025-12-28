@@ -3,21 +3,23 @@
 :root[data-theme='light'] {
     --color-bg: #f5f4f8;
     --color-bg-secondary: #efefef;
-    --color-secondary: #e9e7ef;
+    --color-secondary: #EFEEF5;
     --color-accent: #a1bca9;
     --color-text: #1f1d28;
-    --color-placeholder: rgba(31 29 40 0.4);
+    --color-placeholder: rgba(31, 29, 40, 0.7);
     --color-card-text: #2c2c44;
+    --color-border: gray;
 }
 
 :root[data-theme='dark'] {
     --color-bg: #16151d;
     --color-bg-secondary: #1f1d28;
-    --color-secondary: #181620;
+    --color-secondary: #1f1d28;
     --color-accent: #a1bca9;
     --color-text: #ffffff;
     --color-placeholder: rgba(255, 255, 255, 0.4);
     --color-card-text: #2c2c44;
+    --color-border: gray;
 }
 
 /*? Стандартные настройки приложения */

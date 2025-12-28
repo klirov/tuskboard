@@ -6,10 +6,6 @@ import type { User } from '../../../shared/types';
 
 const URL = 'http://localhost:3000';
 
-/**
- * 
- * @param router 
- */
 export function useAuth(router: Router) {
     const userStore = useUserStore();
     const { user } = storeToRefs(userStore);

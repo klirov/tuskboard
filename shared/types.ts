@@ -13,7 +13,7 @@ export type User = {
 
 export type PublicUser = Omit<User, 'password_hash'>;
 
-export type Status = 'to-do' | 'in-progress' | 'awaiting' | 'done';
+export type Status = 'backlog' | 'to-do' | 'in-progress' | 'awaiting' | 'done';
 
 export type Task = {
     id: number;

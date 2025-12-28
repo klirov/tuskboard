@@ -35,21 +35,7 @@ body {
         color 0.25s ease;
 }
 
-/*? Утилитарные классы для анимирования смены темы */
-
-.transition-color {
-    transition: color 0.25s ease;
-}
-
-.transition-bg-color {
-    transition: background-color 0.25s ease;
-}
-
-.transition-border-color {
-    transition: border-color 0.25s ease;
-}
-
-.transition-theme {
+* {
     transition:
         color 0.25s ease,
         background-color 0.25s ease,

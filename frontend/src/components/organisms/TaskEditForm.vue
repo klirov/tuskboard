@@ -2,10 +2,12 @@
     <form
         v-if="localTask"
         class="task-edit-form"
-        @submit.prevent="handleSubmit"
+        @submit.prevent="emits('submit', localTask)"
         aria-labelledby="task-edit-title"
     >
-        <h2 id="task-edit-title">Editing task: {{ localTask.title }}</h2>
+        <h2 id="task-edit-title">
+            <span class="task-title">Editing task:</span> {{ editingTask?.title }}
+        </h2>
         <fieldset>
             <legend class="visually-hidden">Task data</legend>
 
@@ -32,6 +34,7 @@
                 aria-required="true"
             />
         </fieldset>
+        <UiButton type="submit">Save Changes</UiButton>
     </form>
 </template>
 
@@ -42,13 +45,25 @@ import { maxLength, minLength, required } from '@regle/rules';
 import LabeledTextarea from '../molecules/LabeledTextarea.vue';
 import LabeledSelect from '../molecules/LabeledSelect.vue';
 import type { Task } from '../../../../shared/types';
-import { computed, nextTick, useTemplateRef, watch } from 'vue';
+import { nextTick, ref, useTemplateRef, watch } from 'vue';
+import UiButton from '../atoms/UiButton.vue';
 
 const props = defineProps<{ editingTask: Task | null }>();
 
+const emits = defineEmits<{
+    (e: 'submit', updatedTask: Task): void;
+}>();
+
 const titleInput = useTemplateRef<InstanceType<typeof LabeledInput>>('titleInput');
 
-const localTask = computed<Task | null>(() => props.editingTask);
+const localTask = ref<Task | null>();
+
+watch(
+    () => props.editingTask,
+    () =>
+        props.editingTask ? (localTask.value = { ...props.editingTask }) : (localTask.value = null),
+    { immediate: true },
+);
 
 const { r$ } = useRegle(localTask.value, {
     title: { required, minLength: minLength(3), maxLength: maxLength(255) },
@@ -56,7 +71,6 @@ const { r$ } = useRegle(localTask.value, {
     tags: {},
     status: { required },
 });
-function handleSubmit() {}
 
 watch(
     () => props.editingTask,
@@ -81,6 +95,9 @@ watch(
 }
 .visually-hidden {
     display: none;
+}
+.task-title {
+    color: var(--color-accent);
 }
 fieldset {
     display: flex;

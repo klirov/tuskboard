@@ -8,7 +8,7 @@
             <slot name="inputs" />
         </section>
 
-        <p class="auth-form__hint transition-color">
+        <p class="auth-form__hint">
             <slot name="hint" />
         </p>
 

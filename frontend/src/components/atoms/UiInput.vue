@@ -1,8 +1,8 @@
 <template>
     <input
-        class="transition-theme"
         :placeholder
         :type
+        spellcheck="false"
         v-model="model"
     />
 </template>

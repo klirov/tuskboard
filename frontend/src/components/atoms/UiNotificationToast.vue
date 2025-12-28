@@ -1,5 +1,5 @@
 <template>
-    <div :class="['toast', `toast--${notification.status}`, 'transition-theme']">
+    <div :class="['toast', `toast--${notification.status}`]">
         <p class="toast-title">{{ statusComputed }}</p>
         <p class="toast-message">{{ notification.message }}</p>
     </div>

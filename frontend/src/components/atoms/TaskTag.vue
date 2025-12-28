@@ -1,6 +1,5 @@
 <template>
     <div
-        class="transition-color"
         :style="{ 'background-color': tagColor(tag) }"
     >
         <p>{{ tag.toUpperCase() }}</p>

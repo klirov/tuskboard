@@ -3,7 +3,7 @@
         :href
         :rel="relComputed"
         :target
-        :class="['ui-link', 'transition-color', `ui-link--${size}`]"
+        :class="['ui-link', `ui-link--${size}`]"
     >
         <slot />
     </a>

@@ -1,10 +1,7 @@
 <template>
     <div class="labeled-input">
-        <div class="label-wrapper">
-            <label
-                :for="id"
-                class="transition-color"
-            >
+        <header>
+            <label :for="id">
                 <slot>
                     {{ label }}
                 </slot>
@@ -12,11 +9,11 @@
             <p
                 v-if="error"
                 :id="`${id}-error`"
-                class="input-error transition-color"
+                class="input-error"
             >
                 {{ error }}
             </p>
-        </div>
+        </header>
         <UiInput
             :id="id"
             :aria-describedby="error ? `${id}-error` : undefined"
@@ -53,7 +50,7 @@ label {
     align-items: flex-start;
     gap: 0.25rem;
 }
-.label-wrapper {
+header {
     width: 100%;
     display: flex;
     justify-content: space-between;

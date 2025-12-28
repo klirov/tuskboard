@@ -3,35 +3,47 @@
         <TaskEditPanel
             v-if="isManagingTask"
             :editingTask="editingTask"
-            @request:close="closeTaskManager"
+            @request:close="toggleTaskManager"
+            @editTask="tryToEditTask($event)"
         />
     </Transition>
-    <div class="wrapper">
-        <BoardColumn
-            title="To Do"
-            :tasks="tasksByStatus['to-do']"
-            :loading
-            @request:edit="openTaskManager"
-        />
-        <BoardColumn
-            title="In Progress"
-            :tasks="tasksByStatus['in-progress']"
-            :loading
-            @request:edit="openTaskManager"
-        />
-        <BoardColumn
-            title="Awaiting"
-            :tasks="tasksByStatus['awaiting']"
-            :loading
-            @request:edit="openTaskManager"
-        />
-        <BoardColumn
-            title="Done"
-            :tasks="tasksByStatus['done']"
-            :loading
-            @request:edit="openTaskManager"
-        />
-    </div>
+    <BoardHeader />
+    <BoardTemplate>
+        <template #columns>
+            <BoardColumn
+                title="Backlog"
+                :tasks="tasksByStatus['backlog']"
+                :loading
+                @request:edit="toggleTaskManager"
+                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
+                @dnd:globally="editTask($event)"
+            />
+            <BoardColumn
+                title="To Do"
+                :tasks="tasksByStatus['to-do']"
+                :loading
+                @request:edit="toggleTaskManager"
+                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
+                @dnd:globally="editTask($event)"
+            />
+            <BoardColumn
+                title="In Progress"
+                :tasks="tasksByStatus['in-progress']"
+                :loading
+                @request:edit="toggleTaskManager"
+                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
+                @dnd:globally="editTask($event)"
+            />
+            <BoardColumn
+                title="Awaiting"
+                :tasks="tasksByStatus['awaiting']"
+                :loading
+                @request:edit="toggleTaskManager"
+                @dnd:locally="({ taskId, from, to }) => moveTasksLocally(taskId, from, to)"
+                @dnd:globally="editTask($event)"
+            />
+        </template>
+    </BoardTemplate>
 </template>
 
 <script setup lang="ts">
@@ -39,8 +51,12 @@ import { onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useTasksStore } from '../stores/useTasksStore';
 import { useUserStore } from '../stores/useUserStore';
+import { useNotifications } from '../composables/useNotifications';
 import BoardColumn from '../components/organisms/BoardColumn.vue';
 import TaskEditPanel from '../components/organisms/TaskManagePanel.vue';
+import type { Task } from '../../../shared/types';
+import BoardHeader from '../components/organisms/BoardHeader.vue';
+import BoardTemplate from '../components/templates/BoardTemplate.vue';
 
 const tasksStore = useTasksStore();
 const userStore = useUserStore();
@@ -48,7 +64,21 @@ const userStore = useUserStore();
 const { tasksByStatus, loading, editingTask, isManagingTask } = storeToRefs(tasksStore);
 const { user } = storeToRefs(userStore);
 
-const { openTaskManager, closeTaskManager } = tasksStore;
+const { getUserTasks, toggleTaskManager, editTask, moveTasksLocally } = tasksStore;
+
+const { showNotification } = useNotifications();
+
+async function tryToEditTask(updatedTask: Partial<Task>) {
+    try {
+        await editTask(updatedTask);
+
+        toggleTaskManager();
+
+        if (user.value) await getUserTasks(user.value.id);
+    } catch (error) {
+        showNotification('error', 'Failed to edit task. Please try again.');
+    }
+}
 
 onMounted(() => {
     if (user.value) tasksStore.getUserTasks(user.value.id);
@@ -59,9 +89,9 @@ onMounted(() => {
 .slide-from-left-enter-active,
 .slide-from-left-leave-active {
     transition:
-        transform 0.28s cubic-bezier(0.32, 0.72, 0, 1),
-        opacity 0.28s ease,
-        box-shadow 0.28s ease;
+        transform 0.25s cubic-bezier(0.32, 0.72, 0, 1),
+        opacity 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .slide-from-left-enter-from,
@@ -76,14 +106,5 @@ onMounted(() => {
     transform: translateX(0);
     opacity: 1;
     box-shadow: -12px 0 25px rgba(0, 0, 0, 0.18);
-}
-.wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-
-    gap: 1rem;
-
-    padding: 1rem;
 }
 </style>

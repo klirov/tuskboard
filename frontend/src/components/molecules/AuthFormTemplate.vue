@@ -34,7 +34,9 @@
     align-items: center;
     gap: 3rem;
 
-    background-color: var(--color-bg-secondary);
+    box-shadow: 0 0 0 0.5px var(--color-border);
+
+    background-color: var(--color-secondary);
     border-radius: 2rem;
     margin-inline: auto;
 }

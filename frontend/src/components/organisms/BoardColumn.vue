@@ -3,9 +3,9 @@
         <header class="title">
             <h2>{{ title }}</h2>
         </header>
-        <h2 v-if="loading">Loading tasks...</h2>
+        <h2 v-if="loading">{{ t('task.loading-tasks') }}...</h2>
+        <h2 v-else-if="tasks.length === 0">{{ t('task.no-tasks-yet') }}...</h2>
         <draggable
-            v-if="tasks"
             v-model="props.tasks"
             :group="'tasks'"
             :animation="250"
@@ -20,7 +20,6 @@
                 />
             </template>
         </draggable>
-        <h2 v-else>No tasks yet...</h2>
     </div>
 </template>
 
@@ -28,10 +27,12 @@
 import Draggable from 'vuedraggable';
 import type { Status, Task } from '../../../../shared/types';
 import TaskCard from '../organisms/TaskCard.vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
     title: string;
     loading: boolean;
+    status: Status;
     tasks: Task[];
 }>();
 
@@ -41,6 +42,8 @@ const emits = defineEmits<{
     (e: 'dnd:globally', task: { id: number; status: Status }): void;
 }>();
 
+const { t } = useI18n();
+
 function onChange(e: any) {
     const { moved, added, removed } = e;
 
@@ -48,7 +51,7 @@ function onChange(e: any) {
     if (removed) return;
     if (added) {
         const task = added.element as Task;
-        const newStatus = props.title.toLowerCase().replace(' ', '-') as Status;
+        const newStatus = props.status.toLowerCase().replace(' ', '-') as Status;
         const oldStatus = task.status;
 
         if (newStatus === oldStatus) return;

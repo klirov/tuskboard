@@ -37,11 +37,9 @@ export function registerAuthRoutes(app: Hono<AppEnv>) {
             [email, passwordHash]
         );
 
-        const id = result.insertId;
-
         const [rows] = await pool.query<RowDataPacket[]>(
             "SELECT id, email, password_hash, created_at FROM users WHERE id = ?",
-            [id]
+            [result.insertId]
         );
 
         const user = rows[0] as User;

@@ -15,7 +15,7 @@
         <UiTextarea
             :id="id"
             :aria-describedby="error ? `${id}-error` : undefined"
-            placeholder="placeholder"
+            :placeholder="placeholder"
             v-model="model"
         />
     </div>

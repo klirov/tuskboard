@@ -2,6 +2,7 @@
     <div class="select-wrapper">
         <select v-model="model">
             <option
+                v-if="title"
                 value=""
                 disabled
                 selected
@@ -11,8 +12,9 @@
             <option
                 v-for="(option, index) in options"
                 :key="index"
+                :value="option.value"
             >
-                {{ option }}
+                {{ option.label }}
             </option>
         </select>
     </div>
@@ -21,9 +23,11 @@
 <script setup lang="ts">
 const model = defineModel<string>();
 
+type Option = { value: string; label: string };
+
 export type SelectProps = {
-    title: string;
-    options: string[];
+    title?: string;
+    options: Option[];
 };
 
 defineProps<SelectProps>();

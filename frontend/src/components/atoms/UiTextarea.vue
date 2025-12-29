@@ -1,7 +1,7 @@
 <template>
     <textarea
         v-model="model"
-        placeholder="placeholder"
+        :placeholder="placeholder"
     ></textarea>
 </template>
 

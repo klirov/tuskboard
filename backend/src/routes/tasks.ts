@@ -5,37 +5,19 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { fail, ok } from '../utils/apiResponse';
 
 export function registerTasksRoutes(app: Hono<AppEnv>) {
-    app.get('/tasks/:userId', async (c) => {
-        const userId = c.req.param('userId');
+    app.get('/tasks/:boardId', async (c) => {
+        const boardId = c.req.param('boardId');
+        const user = c.get('user') as { id: number };
 
-        const [existing] = await pool.query<RowDataPacket[]>(
-            'SELECT id FROM users WHERE id = ? LIMIT 1',
-            [userId],
-        );
-
-        if (!existing.length) {
-            return c.json(fail('User not found', 404));
-        }
-
-        const [rows] = await pool.query<RowDataPacket[]>(
-            'SELECT * FROM tasks WHERE user_id = ? ORDER BY id',
-            [userId],
-        );
+        const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM tasks WHERE board_id = ?', [
+            boardId,
+        ]);
 
         return c.json(ok<Task[]>(rows as Task[]));
     });
 
-    app.post('/tasks/:userId', async (c) => {
-        const userId = c.req.param('userId');
-
-        const [existing] = await pool.query<RowDataPacket[]>(
-            'SELECT id FROM users WHERE id = ? LIMIT 1',
-            [userId],
-        );
-
-        if (!existing.length) {
-            return c.json(fail('User not found', 404));
-        }
+    app.post('/boards/:boardId/tasks', async (c) => {
+        const boardId = Number(c.req.param('boardId'));
 
         const body = await c.req.json<Partial<Task>>();
 
@@ -43,13 +25,21 @@ export function registerTasksRoutes(app: Hono<AppEnv>) {
         const description = body.description?.trim() || null;
         const tags = body.tags ? JSON.stringify(body.tags) : null;
         const status = body.status || 'to-do';
+        const order = body.order || null;
 
         try {
             const [result] = await pool.query<ResultSetHeader>(
-                'INSERT INTO tasks (user_id, title, description, tags, status) VALUES (?, ?, ?, ?, ?)',
-                [userId, title, description, tags, status],
+                'INSERT INTO tasks (board_id, title, description, tags, status, `order`) VALUES (?, ?, ?, ?, ?, ?)',
+                [boardId, title, description, tags, status, order],
             );
-            if (result.affectedRows === 1) return c.json(ok<Task>(body as Task));
+            if (result.affectedRows === 1) {
+                const [newRow] = await pool.query<RowDataPacket[]>(
+                    'SELECT * FROM tasks WHERE id = ?',
+                    [result.insertId],
+                );
+
+                return c.json(ok<Task>(newRow[0] as Task));
+            }
         } catch (error) {
             return c.json(fail('Failed to create task', 500));
         }
@@ -58,21 +48,17 @@ export function registerTasksRoutes(app: Hono<AppEnv>) {
     app.put('/tasks/:taskId', async (c) => {
         const taskId = c.req.param('taskId');
 
-        const [existing] = await pool.query<RowDataPacket[]>(
-            'SELECT * FROM tasks WHERE id = ? LIMIT 1',
+        const [rows] = await pool.query<RowDataPacket[]>(
+            'SELECT t.* FROM tasks t JOIN boards b ON t.board_id = b.id WHERE t.id = ? LIMIT 1',
             [taskId],
         );
 
-        if (!existing.length) {
-            return c.json(fail('Task not found', 404));
-        }
-
+        const existingTask = rows[0] as Task;
         const body = await c.req.json<Partial<Task>>();
-        const existingTask = existing[0] as Task;
 
         const title = body.title?.trim() ?? existingTask.title;
         const description = body.description?.trim() ?? existingTask.description;
-        const tags = body.tags ? JSON.stringify(body.tags) : JSON.stringify(existingTask.tags)
+        const tags = body.tags ? JSON.stringify(body.tags) : JSON.stringify(existingTask.tags);
         const status = body.status ?? existingTask.status;
 
         try {

@@ -5,20 +5,23 @@
             class="tags"
             v-if="task.tags?.length"
         >
-            Tags:
+            {{ t('task.tags') }}:
             <TaskTag
                 v-for="(tag, index) in task.tags"
                 :key="index"
                 :tag
             />
         </div>
-        <small>Created: {{ createdAt }}</small>
+        <small>{{ t('task.created') }}: {{ createdAt }}</small>
     </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import type { Task } from '../../../../shared/types';
 import TaskTag from '../atoms/TaskTag.vue';
+
+const { t } = useI18n();
 
 defineProps<{ task: Task; createdAt: string }>();
 </script>

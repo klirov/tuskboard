@@ -1,6 +1,8 @@
 <template>
+    <slot name="edit-panel"/>
+    <slot name="board-header"/>
     <div class="columns">
-        <slot name="columns" />
+        <slot name="board-columns" />
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia';
-import { useUserStore } from '../stores/useUserStore';
+import { useUserStore } from '../stores/useUser';
 import { type Router } from 'vue-router';
 import { useApi } from './useApi';
 import type { User } from '../../../shared/types';
@@ -47,7 +47,6 @@ export function useAuth(router: Router) {
             const data = await requestApi<User>(`${URL}/protected/me`);
             if (data) {
                 user.value = data;
-                router.push('/profile');
             }
         } catch {
             return null;

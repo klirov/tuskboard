@@ -13,7 +13,7 @@
 import { computed } from 'vue';
 
 export type LinkProps = {
-    href: string;
+    href?: string;
     target?: '_self' | '_blank' | '_parent' | '_top';
     rel?: string;
     size?: 'small' | 'medium' | 'large' | 'inherit';

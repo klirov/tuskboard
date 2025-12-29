@@ -1,0 +1,35 @@
+{
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "save-changes": "Save changes",
+    "title": "Title",
+    "description": "Description",
+    "status": "Status",
+    "task": {
+        "tags": "Tags",
+        "created": "Created",
+        "delete-confirm-text": "Delete task?",
+        "task-data": "Task data",
+        "edit-task": "Editing task",
+        "loading-tasks": "Loading tasks",
+        "no-tasks-yet": "No tasks yet",
+        "enter-title": "Enter task title",
+        "enter-description": "Enter task description",
+        "choose-status": "Choose a status",
+        "statuses": {
+            "backlog": "Backlog",
+            "to-do": "To do",
+            "in-progress": "In progress",
+            "awaiting": "Awaiting"
+        }
+    },
+    "panel": {
+        "manage-panel": "Task manage panel"
+    },
+    "form": {
+        "field-required": "Field is required",
+        "minimum-length": "Minimum length",
+        "maximum-length": "Maximum length"
+    }
+}

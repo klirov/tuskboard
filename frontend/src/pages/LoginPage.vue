@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import LoginForm from '../components/organisms/LoginForm.vue';
+import LoginForm from '../components/organisms/forms/LoginForm.vue';
 </script>
 
 <style scoped>

@@ -1,8 +1,8 @@
 <template>
     <aside class="panel">
         <header class="panel-header">
-            <h2>Task Manage Panel</h2>
-            <UiButton @click="emits('request:close')">Close</UiButton>
+            <h2>{{ t('panel.manage-panel') }}</h2>
+            <UiButton @click="emits('request:close')">{{ t('close') }}</UiButton>
         </header>
         <TaskEditForm
             v-if="editingTask"
@@ -17,8 +17,9 @@
 <script setup lang="ts">
 import type { Task } from '../../../../shared/types';
 import UiButton from '../atoms/UiButton.vue';
-import TaskEditForm from './TaskEditForm.vue';
-import TaskCreatingForm from './TaskCreatingForm.vue';
+import TaskEditForm from './forms/TaskEditForm.vue';
+import TaskCreatingForm from './forms/TaskCreatingForm.vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{ editingTask: Task | null }>();
 
@@ -27,6 +28,8 @@ const emits = defineEmits<{
     (e: 'deleteTask', taskId: number): void;
     (e: 'request:close'): void;
 }>();
+
+const { t } = useI18n();
 </script>
 
 <style scoped>

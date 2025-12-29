@@ -64,6 +64,8 @@ button {
     justify-content: center;
     align-items: center;
     text-align: center;
+    
+    gap: 0.5rem;
 }
 .button--xs {
     font-size: 0.5rem;

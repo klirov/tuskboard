@@ -1,7 +1,7 @@
 <template>
     <AuthFormTemplate>
         <template #title>
-            <h2>Регистрация</h2>
+            <h2>Вход</h2>
         </template>
         <template #inputs>
             <LabeledInput
@@ -20,15 +20,15 @@
             />
         </template>
         <template #hint>
-            У вас уже есть аккаунт?&nbsp;<AppLink to="/login">Войти</AppLink>
+            Ещё нет аккаунта?&nbsp;<AppLink to="/register">Зарегистрироваться</AppLink>
         </template>
         <template #actions>
             <UiButton
                 size="m"
                 width="12rem"
-                @click="register"
+                @click="login"
             >
-                Зарегистрироваться
+                Войти
             </UiButton>
         </template>
     </AuthFormTemplate>
@@ -36,17 +36,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AuthFormTemplate from '../molecules/AuthFormTemplate.vue';
-import LabeledInput from '../molecules/LabeledInput.vue';
-import AppLink from '../molecules/AppLink.vue';
-import UiButton from '../atoms/UiButton.vue';
-import { useAuth } from '../../composables/useAuth';
 import { useRegle } from '@regle/core';
-import { useRouter } from 'vue-router';
 import { email, minLength, required } from '@regle/rules';
+import { useAuth } from '../../../composables/useAuth';
+import { useRouter } from 'vue-router';
+import AuthFormTemplate from '../../molecules/AuthFormTemplate.vue';
+import LabeledInput from '../../molecules/LabeledInput.vue';
+import AppLink from '../../molecules/AppLink.vue';
+import UiButton from '../../atoms/UiButton.vue';
 
 const router = useRouter();
-const { registerUser } = useAuth(router);
+const { verifyUser } = useAuth(router);
 
 const formData = ref({
     email: '',
@@ -59,10 +59,14 @@ const { r$ } = useRegle(formData, {
     password: { required, minLength: minLength(8) },
 });
 
-async function register() {
+async function login() {
     submitted.value = true;
+
     r$.$touch();
-    if (!r$.$invalid) await registerUser(formData.value.email, formData.value.password);
+
+    if (r$.$invalid) return;
+
+    await verifyUser(formData.value.email, formData.value.password);
 }
 </script>
 

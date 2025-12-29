@@ -1,0 +1,35 @@
+{
+    "yes": "Да",
+    "no": "Нет",
+    "close": "Закрыть",
+    "save-changes": "Сохранить изменения",
+    "title": "Название",
+    "description": "Описание",
+    "status": "Статус",
+    "task": {
+        "tags": "Теги",
+        "created": "Создано",
+        "delete-confirm-text": "Удалить задачу?",
+        "task-data": "Данные задачи",
+        "edit-task": "Редактирование задачи",
+        "loading-tasks": "Загружаю задачи",
+        "no-tasks-yet": "Пока нет задач",
+        "enter-title": "Введи название задачи",
+        "enter-description": "Введи описание задачи",
+        "choose-status": "Выбери статус",
+        "statuses": {
+            "backlog": "Отложено",
+            "to-do": "Запланировано",
+            "in-progress": "В работе",
+            "awaiting": "Ожидают"
+        }
+    },
+    "panel": {
+        "manage-panel": "Панель управления задачами"
+    },
+    "form": {
+        "field-required": "Обязательное поле",
+        "minimum-length": "Минимальная длина",
+        "maximum-length": "Максимальная длина"
+    }
+}

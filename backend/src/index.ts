@@ -1,9 +1,10 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { registerUserRoutes } from './routes/users';
-import { registerAuthRoutes } from './routes/auth';
 import { AppEnv } from '../../shared/types';
+import { registerAuthRoutes } from './routes/auth';
+import { registerUserRoutes } from './routes/users';
 import { registerTasksRoutes } from './routes/tasks';
+import { registerBoardsRoutes } from './routes/boards';
 
 const app = new Hono<AppEnv>();
 
@@ -17,8 +18,9 @@ app.use(
     }),
 );
 
-registerUserRoutes(app);
 registerAuthRoutes(app);
+registerUserRoutes(app);
+registerBoardsRoutes(app);
 registerTasksRoutes(app);
 
 export default app;

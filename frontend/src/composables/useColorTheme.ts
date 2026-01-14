@@ -30,7 +30,7 @@ function initTheme() {
 
 function toggleTheme() {
     const current = (root.getAttribute('data-theme') as Theme) || 'light';
-    const next: Theme = current === 'light' ? 'dark' : 'light';
+    const next = current === 'light' ? 'dark' : 'light';
     applyTheme(next);
     currentTheme.value = next;
 }

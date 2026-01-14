@@ -52,7 +52,7 @@ const formData = ref({
     email: '',
     password: '',
 });
-const submitted = ref<boolean>(false);
+const submitted = ref(false);
 
 const { r$ } = useRegle(formData, {
     email: { required, email },

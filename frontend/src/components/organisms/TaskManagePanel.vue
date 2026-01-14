@@ -7,25 +7,25 @@
         <TaskEditForm
             v-if="editingTask"
             :editingTask="editingTask"
-            @submit="emits('editTask', $event)"
-            @deleteTask="emits('deleteTask', $event)"
+            @submit="emits('task:edit', $event)"
+            @deleteTask="emits('task:delete', $event)"
         />
         <TaskCreatingForm v-else />
     </aside>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import type { Task } from '../../../../shared/types';
 import UiButton from '../atoms/UiButton.vue';
 import TaskEditForm from './forms/TaskEditForm.vue';
 import TaskCreatingForm from './forms/TaskCreatingForm.vue';
-import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{ editingTask: Task | null }>();
 
 const emits = defineEmits<{
-    (e: 'editTask', updatedTask: Task): void;
-    (e: 'deleteTask', taskId: number): void;
+    (e: 'task:edit', updatedTask: Task): void;
+    (e: 'task:delete', taskId: number): void;
     (e: 'request:close'): void;
 }>();
 

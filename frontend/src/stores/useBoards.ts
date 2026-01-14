@@ -11,7 +11,7 @@ export const useBoardsStore = defineStore('boards', () => {
     const { showNotification } = useNotifications();
 
     const userBoards = ref<Board[]>([]);
-    const loading = ref<boolean>(false);
+    const loading = ref(false);
 
     async function getUserBoards(userId: number) {
         loading.value = true;

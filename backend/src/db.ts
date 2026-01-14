@@ -1,9 +1,9 @@
-import { createPool } from "mysql2/promise";
+import { createPool } from 'mysql2/promise';
 
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
 if (!DB_HOST || !DB_USER || !DB_NAME) {
-    throw new Error("DB_HOST, DB_USER, DB_NAME должны быть установлены в .env");
+    throw new Error('DB_HOST, DB_USER, DB_NAME должны быть установлены в .env');
 }
 
 export const pool = createPool({

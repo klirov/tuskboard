@@ -9,7 +9,7 @@ export const useTasksStore = defineStore('tasks', () => {
     const { requestApi } = useApi();
 
     const editingTask = shallowRef<Task | null>(null);
-    const isManagingTask = ref<boolean>(false);
+    const isManagingTask = ref(false);
 
     async function deleteTask(taskId: number) {
         try {

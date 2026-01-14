@@ -6,8 +6,8 @@
                     v-if="isManagingTask"
                     :editingTask="editingTask"
                     @request:close="toggleTaskManager"
-                    @deleteTask="tryToDeleteTask($event)"
-                    @editTask="tryToEditTask($event)"
+                    @task:delete="tryToDeleteTask($event)"
+                    @task:edit="tryToEditTask($event)"
                 />
             </Transition>
         </template>
@@ -31,6 +31,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
 import { useTasksStore } from '../stores/useTasks';
 import { useNotifications } from '../composables/useNotifications';
 import { useBoardTasks } from '../composables/useBoardTasks';
@@ -39,7 +40,6 @@ import TaskEditPanel from '../components/organisms/TaskManagePanel.vue';
 import BoardTemplate from '../components/templates/BoardTemplate.vue';
 import BoardHeader from '../components/organisms/headers/BoardHeader.vue';
 import BoardColumn from '../components/organisms/BoardColumn.vue';
-import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{ boardId: number }>();
 
@@ -53,6 +53,8 @@ const { tasksByStatus, loading, loadTasks, moveTasksLocally } = useBoardTasks(pr
 
 const { showNotification } = useNotifications();
 
+const { t } = useI18n();
+
 const renderStatuses = [
     'backlog',
     'to-do',
@@ -60,10 +62,8 @@ const renderStatuses = [
     'awaiting',
 ] as const satisfies readonly ActiveStatus[];
 
-const { t } = useI18n()
-
 function getColumnTitle(status: ActiveStatus) {
-    return t(`task.statuses.${status.toLowerCase()}`)
+    return t(`task.statuses.${status.toLowerCase()}`);
 }
 
 async function moveTask(task: Partial<Task>) {

@@ -85,7 +85,7 @@ const { t } = useI18n();
 
 const localTask = ref<Task | null>();
 
-const showConfirm = ref<boolean>(false);
+const showConfirm = ref(false);
 
 const optionsWithLocales = [
   { value: 'backlog', label: t('task.statuses.backlog') },

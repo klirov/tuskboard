@@ -32,9 +32,9 @@ const emits = defineEmits<{
     (e: 'request:edit', task: Task): void;
 }>();
 
-const localeStore = useLocaleStore()
+const localeStore = useLocaleStore();
 
-const editButtonShown = ref<boolean>(false);
+const editButtonShown = ref(false);
 
 const cardBackground = computed<string>(() => {
     const hue = makeHueFromId(props.task.id);

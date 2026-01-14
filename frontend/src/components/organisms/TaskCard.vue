@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useLocaleStore } from '../../stores/useLocale';
+import { useLocale } from '../../composables/useLocale';
 import type { Task } from '../../../../shared/types';
 import { makeHueFromId } from '../../utils/GenerateCardColors';
 import TaskCardHeader from '../molecules/TaskCardHeader.vue';
@@ -32,7 +32,7 @@ const emits = defineEmits<{
     (e: 'request:edit', task: Task): void;
 }>();
 
-const localeStore = useLocaleStore();
+const { locale } = useLocale();
 
 const editButtonShown = ref(false);
 
@@ -42,7 +42,7 @@ const cardBackground = computed<string>(() => {
 });
 
 const createdAt = computed<ReturnType<typeof Date>>(() => {
-    return new Date(props.task.created_at).toLocaleString(localeStore.locale, {
+    return new Date(props.task.created_at).toLocaleString(locale.value, {
         dateStyle: 'medium',
         timeStyle: 'medium',
     });

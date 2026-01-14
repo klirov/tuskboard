@@ -83,7 +83,7 @@ const emits = defineEmits<{
 
 const { t } = useI18n();
 
-const localTask = ref<Task | null>();
+const localTask = ref<Task | null>(null);
 
 const showConfirm = ref(false);
 

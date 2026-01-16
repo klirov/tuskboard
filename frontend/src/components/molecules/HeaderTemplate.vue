@@ -1,7 +1,7 @@
 <template>
     <header>
         <div class="section"><slot name="left-section" /></div>
-        <div class="section"><slot name="center-section" /></div>
+        <div class="section center"><slot name="center-section" /></div>
         <div class="section"><slot name="right-section" /></div>
     </header>
 </template>
@@ -10,6 +10,7 @@
 
 <style scoped>
 header {
+    position: relative;
     width: 100%;
     padding: 1rem;
 
@@ -22,5 +23,12 @@ header {
 .section {
     display: flex;
     gap: 1rem;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

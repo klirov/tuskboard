@@ -5,12 +5,12 @@
             <UiButton @click="emits('request:close')">{{ t('close') }}</UiButton>
         </header>
         <TaskEditForm
-            v-if="editingTask"
+            v-if="mode === 'edit'"
             :editingTask="editingTask"
             @submit="emits('task:edit', $event)"
             @deleteTask="emits('task:delete', $event)"
         />
-        <TaskCreatingForm v-else />
+        <TaskCreatingForm v-if="mode === 'create'" />
     </aside>
 </template>
 
@@ -21,7 +21,7 @@ import UiButton from '../atoms/UiButton.vue';
 import TaskEditForm from './forms/TaskEditForm.vue';
 import TaskCreatingForm from './forms/TaskCreatingForm.vue';
 
-const props = defineProps<{ editingTask: Task | null }>();
+const props = defineProps<{ editingTask: Task | null; mode?: 'edit' | 'create' | null }>();
 
 const emits = defineEmits<{
     (e: 'task:edit', updatedTask: Task): void;

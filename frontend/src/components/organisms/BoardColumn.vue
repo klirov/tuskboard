@@ -7,8 +7,8 @@
         <h2 v-else-if="tasks.length === 0">{{ t('task.no-tasks-yet') }}...</h2>
         <draggable
             v-model="props.tasks"
-            :group="'tasks'"
-            :animation="250"
+            group="'tasks'"
+            animation="250"
             item-key="id"
             @change="onChange"
             class="tasks-list"

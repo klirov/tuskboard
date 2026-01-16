@@ -9,3 +9,9 @@
         />
     </svg>
 </template>
+
+<style scoped>
+svg {
+    width: 1.25rem;
+}
+</style>

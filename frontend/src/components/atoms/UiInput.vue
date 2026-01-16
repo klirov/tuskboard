@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<InputProps>(), {
 
 <style scoped>
 input {
-    width: min(100%, 30em);
+    width: 100%;
     height: max-content;
     padding: 0.75em 1em;
     border-radius: 1em;

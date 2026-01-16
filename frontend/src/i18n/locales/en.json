@@ -11,6 +11,8 @@
         "created": "Created",
         "delete-confirm-text": "Delete task?",
         "task-data": "Task data",
+        "create-task": "Create task",
+        "create-new-task": "Create new task",
         "edit-task": "Editing task",
         "loading-tasks": "Loading tasks",
         "no-tasks-yet": "No tasks yet",

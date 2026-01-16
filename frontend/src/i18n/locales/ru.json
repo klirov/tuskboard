@@ -11,6 +11,8 @@
         "created": "Создано",
         "delete-confirm-text": "Удалить задачу?",
         "task-data": "Данные задачи",
+        "create-task": "Создать задачу",
+        "create-new-task": "Создать новую задачу",
         "edit-task": "Редактирование задачи",
         "loading-tasks": "Загружаю задачи",
         "no-tasks-yet": "Пока нет задач",

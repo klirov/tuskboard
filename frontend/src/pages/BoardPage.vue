@@ -5,13 +5,14 @@
                 <TaskManagePanel
                     v-if="isManagingTask"
                     :editingTask="editingTask"
+                    :mode="managingMode"
                     @request:close="toggleTaskManager"
                     @task:delete="tryToDeleteTask($event)"
                     @task:edit="tryToEditTask($event)"
                 />
             </Transition>
         </template>
-        <template #board-header> <BoardHeader /></template>
+        <template #board-header> <BoardHeader @task:create="toggleCreatePanel" /></template>
         <template #board-columns>
             <BoardColumn
                 v-for="status in renderStatuses"
@@ -45,9 +46,9 @@ const props = defineProps<{ boardId: number }>();
 
 const tasksStore = useTasksStore();
 
-const { editingTask, isManagingTask } = storeToRefs(tasksStore);
+const { managingMode, editingTask, isManagingTask } = storeToRefs(tasksStore);
 
-const { toggleTaskManager, editTask, deleteTask } = tasksStore;
+const { toggleCreatePanel, toggleTaskManager, editTask, deleteTask } = tasksStore;
 
 const { tasksByStatus, loading, loadTasks, moveTasksLocally } = useBoardTasks(props.boardId);
 

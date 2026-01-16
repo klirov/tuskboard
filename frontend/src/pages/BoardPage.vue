@@ -2,7 +2,7 @@
     <BoardTemplate>
         <template #edit-panel>
             <Transition name="slide-from-left">
-                <TaskEditPanel
+                <TaskManagePanel
                     v-if="isManagingTask"
                     :editingTask="editingTask"
                     @request:close="toggleTaskManager"
@@ -36,7 +36,7 @@ import { useTasksStore } from '../stores/useTasks';
 import { useNotifications } from '../composables/useNotifications';
 import { useBoardTasks } from '../composables/useBoardTasks';
 import type { Status, ActiveStatus, Task } from '../../../shared/types';
-import TaskEditPanel from '../components/organisms/TaskManagePanel.vue';
+import TaskManagePanel from '../components/organisms/TaskManagePanel.vue';
 import BoardTemplate from '../components/templates/BoardTemplate.vue';
 import BoardHeader from '../components/organisms/headers/BoardHeader.vue';
 import BoardColumn from '../components/organisms/BoardColumn.vue';

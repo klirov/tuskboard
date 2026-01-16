@@ -1,7 +1,6 @@
 <template>
     <div class="language-switcher">
         <UiButton height="100%">
-            <span class="flag">{{ currentLang?.flag }}</span>
             <span class="name">{{ currentLang?.name }}</span>
             <ArrowIcon class="arrow" />
         </UiButton>
@@ -12,7 +11,7 @@
                 :class="{ active: lang.code === locale }"
                 @click="select(lang.code)"
             >
-                <span class="flag">{{ lang.flag }}</span>
+                <FlagIcon :src="lang.flag" />
                 <span class="name">{{ lang.name }}</span>
             </li>
         </ul>
@@ -22,16 +21,19 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useLocaleStore } from '../../stores/useLocale';
+import { useLocale } from '../../composables/useLocale';
 import ArrowIcon from '../atoms/icons/ArrowIcon.vue';
 import UiButton from '../atoms/UiButton.vue';
+import FlagIcon from '../atoms/icons/FlagIcon.vue';
+import ruFlag from '../../flags/ru.svg?url';
+import gbFlag from '../../flags/gb.svg?url';
 
 const { locale } = useI18n();
-const localeStore = useLocaleStore();
+const { setLocale } = useLocale();
 
 const languages = [
-    { code: 'ru', name: 'Русский', flag: 'RU' },
-    { code: 'en', name: 'English', flag: 'GB' },
+    { code: 'ru', name: 'Русский', flag: ruFlag },
+    { code: 'en', name: 'English', flag: gbFlag },
 ];
 
 const currentLang = computed(() => {
@@ -40,7 +42,7 @@ const currentLang = computed(() => {
 
 async function select(code: string) {
     if (code !== locale.value) {
-        await localeStore.setLocale(code);
+        await setLocale(code);
     }
 }
 </script>

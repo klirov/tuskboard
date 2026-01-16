@@ -10,6 +10,7 @@ export const useTasksStore = defineStore('tasks', () => {
 
     const editingTask = shallowRef<Task | null>(null);
     const isManagingTask = ref(false);
+    const managingMode = ref<'edit' | 'create' | null>(null);
 
     async function deleteTask(taskId: number) {
         try {
@@ -33,27 +34,54 @@ export const useTasksStore = defineStore('tasks', () => {
         }
     }
 
-    function toggleTaskManager(task?: Task) {
-        if (!task) {
-            editingTask.value = null;
-            isManagingTask.value = false;
-        }
-
-        if (editingTask.value?.id === task?.id) {
-            editingTask.value = null;
-            isManagingTask.value = false;
+    function toggleCreatePanel() {
+        if (isManagingTask.value) {
+            closePanel();
             return;
         }
-
-        editingTask.value = task || null;
+        editingTask.value = null;
+        managingMode.value = 'create';
         isManagingTask.value = true;
-        return;
+    }
+
+    function openEditPanel(task: Task) {
+        editingTask.value = task;
+        managingMode.value = 'edit';
+        isManagingTask.value = true;
+    }
+
+    function closePanel() {
+        editingTask.value = null;
+        managingMode.value = null;
+        isManagingTask.value = false;
+    }
+
+    function toggleTaskManager(task?: Task) {
+        const isEditTaskUnavailable =
+            editingTask.value?.id === task?.id &&
+            managingMode.value === 'edit' &&
+            isManagingTask.value;
+        if (!task) {
+            if (managingMode.value === 'create' && isManagingTask.value) {
+                closePanel();
+            } else {
+                toggleCreatePanel();
+            }
+        } else {
+            if (isEditTaskUnavailable) {
+                closePanel();
+            } else {
+                openEditPanel(task);
+            }
+        }
     }
 
     return {
         editingTask,
         isManagingTask,
+        toggleCreatePanel,
         toggleTaskManager,
+        managingMode,
         deleteTask,
         editTask,
     };

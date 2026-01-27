@@ -1,7 +1,9 @@
 {
     "name": "task-manager-hono",
     "scripts": {
-        "dev": "bun run --hot src/index.ts"
+        "dev": "bun run --hot src/index.ts",
+        "build": "tsc",
+        "start": "node dist/index.js"
     },
     "dependencies": {
         "bcryptjs": "^3.0.3",

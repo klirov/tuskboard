@@ -14,7 +14,11 @@ const routes: RouteRecordRaw[] = [
     { path: '/', component: () => import('../pages/HomePage.vue') },
     { path: '/login', component: () => import('../pages/LoginPage.vue') },
     { path: '/register', component: () => import('../pages/RegisterPage.vue') },
-    { path: '/profile', component: () => import('../pages/ProfilePage.vue') },
+    {
+        path: '/profile',
+        component: () => import('../pages/ProfilePage.vue'),
+        meta: { requiresAuth: true },
+    },
     {
         path: '/board/:boardId(\\d+)',
         name: 'board',

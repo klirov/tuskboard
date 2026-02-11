@@ -15,12 +15,14 @@ defineProps<{
 
 <style scoped>
 div {
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
     align-items: center;
+    gap: 0.375rem;
 
     padding: 0.25rem;
     border-radius: 0.25rem;
+
+    white-space: nowrap;
 
     color: var(--color-card-text);
 }

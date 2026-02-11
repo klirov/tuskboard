@@ -28,6 +28,7 @@ input {
     height: max-content;
     padding: 0.75em 1em;
     border-radius: 1em;
+    font-size: 1rem;
 
     border: 1px solid var(--color-border);
     color: var(--color-text);

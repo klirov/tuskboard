@@ -1,8 +1,7 @@
 <template>
-    <div
-        :style="{ 'background-color': tagColor(tag) }"
-    >
+    <div :style="{ 'background-color': tagColor(tag) }">
         <p>{{ tag.toUpperCase() }}</p>
+        <slot />
     </div>
 </template>
 

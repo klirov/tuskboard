@@ -42,13 +42,13 @@ defineProps<LabeledInputProps>();
 <style scoped>
 label {
     color: var(--color-text);
-    font-size: 0.875rem;
+    font-size: 1rem;
 }
 .labeled-input {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.25rem;
+    gap: 0.5rem;
 }
 header {
     width: 100%;

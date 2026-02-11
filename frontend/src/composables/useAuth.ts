@@ -4,7 +4,7 @@ import { type Router } from 'vue-router';
 import { useApi } from './useApi';
 import type { User } from '../../../shared/types';
 
-const URL = 'http://localhost:3000';
+const BACKEND_URL = 'http://localhost:3000';
 
 export function useAuth(router: Router) {
     const userStore = useUserStore();
@@ -13,7 +13,7 @@ export function useAuth(router: Router) {
 
     async function registerUser(email: string, password: string) {
         try {
-            const data = await requestApi<User>(`${URL}/register`, {
+            const data = await requestApi<User>(`${BACKEND_URL}/register`, {
                 method: 'POST',
                 body: JSON.stringify({ email, password }),
             });
@@ -29,7 +29,7 @@ export function useAuth(router: Router) {
 
     async function verifyUser(email: string, password: string) {
         try {
-            const data = await requestApi<User>(`${URL}/login`, {
+            const data = await requestApi<User>(`${BACKEND_URL}/login`, {
                 method: 'POST',
                 body: JSON.stringify({ email, password }),
             });
@@ -44,7 +44,7 @@ export function useAuth(router: Router) {
 
     async function fetchMe() {
         try {
-            const data = await requestApi<User>(`${URL}/protected/me`);
+            const data = await requestApi<User>(`${BACKEND_URL}/protected/me`);
             if (data) {
                 user.value = data;
             }
@@ -55,7 +55,7 @@ export function useAuth(router: Router) {
 
     async function logout() {
         try {
-            await requestApi(`${URL}/logout`, {
+            await requestApi(`${BACKEND_URL}/logout`, {
                 method: 'POST',
             });
             user.value = null;

@@ -7,8 +7,10 @@
                     :editingTask="editingTask"
                     :mode="managingMode"
                     @request:close="toggleTaskManager"
+                    @task:create="tryToCreateTask($event)"
                     @task:delete="tryToDeleteTask($event)"
                     @task:edit="tryToEditTask($event)"
+                    :board-id="boardId"
                 />
             </Transition>
         </template>
@@ -48,7 +50,7 @@ const tasksStore = useTasksStore();
 
 const { managingMode, editingTask, isManagingTask } = storeToRefs(tasksStore);
 
-const { toggleCreatePanel, toggleTaskManager, editTask, deleteTask } = tasksStore;
+const { toggleCreatePanel, toggleTaskManager, createTask, editTask, deleteTask } = tasksStore;
 
 const { tasksByStatus, loading, loadTasks, moveTasksLocally } = useBoardTasks(props.boardId);
 
@@ -72,6 +74,18 @@ async function moveTask(task: Partial<Task>) {
         await editTask(task);
     } catch (error) {
         showNotification('error', 'Failed to move task.');
+    }
+}
+
+async function tryToCreateTask(task: Partial<Task>) {
+    try {
+        await createTask(task, props.boardId);
+
+        toggleTaskManager();
+
+        await loadTasks();
+    } catch {
+        showNotification('error', 'Failed to create task.');
     }
 }
 

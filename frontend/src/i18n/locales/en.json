@@ -24,7 +24,8 @@
             "to-do": "To do",
             "in-progress": "In progress",
             "awaiting": "Awaiting"
-        }
+        },
+        "enter-tag": "Enter tag"
     },
     "panel": {
         "manage-panel": "Task manage panel"

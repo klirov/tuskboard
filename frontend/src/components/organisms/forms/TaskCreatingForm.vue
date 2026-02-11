@@ -1,7 +1,7 @@
 <template>
     <form
         class="task-edit-form"
-        @submit.prevent="emits('submit', localTask)"
+        @submit.prevent="emits('task:create', localTask)"
         aria-labelledby="task-edit-title"
     >
         <h2 id="task-edit-title">{{ t('task.create-task') }}:</h2>
@@ -30,6 +30,10 @@
                 :options="optionsWithLocales"
                 aria-required="true"
             />
+            <TagInput
+                :label="t('task.tags')"
+                v-model="localTask.tags"
+            />
         </fieldset>
         <div class="buttons">
             <UiButton
@@ -50,11 +54,11 @@ import type { Task } from '../../../../../shared/types';
 import LabeledInput from '../../molecules/LabeledInput.vue';
 import LabeledTextarea from '../../molecules/LabeledTextarea.vue';
 import LabeledSelect from '../../molecules/LabeledSelect.vue';
+import TagInput from '../../molecules/TagInput.vue';
 import UiButton from '../../atoms/UiButton.vue';
 
 const emits = defineEmits<{
-    (e: 'submit', updatedTask: Partial<Task>): void;
-    (e: 'deleteTask', taskId: number): void;
+    (e: 'task:create', task: Partial<Task>): void;
 }>();
 
 const { t } = useI18n();

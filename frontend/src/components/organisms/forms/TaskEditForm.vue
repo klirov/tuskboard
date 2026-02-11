@@ -2,7 +2,7 @@
     <form
         v-if="localTask"
         class="task-edit-form"
-        @submit.prevent="emits('submit', localTask)"
+        @submit.prevent="emits('task:edit', localTask)"
         aria-labelledby="task-edit-title"
     >
         <h2 id="task-edit-title">
@@ -33,6 +33,10 @@
                 :options="optionsWithLocales"
                 aria-required="true"
             />
+            <TagInput
+                :label="t('task.tags')"
+                v-model="localTask.tags"
+            />
         </fieldset>
         <div class="buttons">
             <UiButton
@@ -54,7 +58,7 @@
                     v-if="showConfirm"
                     :confirmation-text="t('task.delete-confirm-text')"
                     @popover:cancel="showConfirm = false"
-                    @popover:confirm="emits('deleteTask', localTask.id)"
+                    @popover:confirm="emits('task:delete', localTask.id)"
                 />
             </Transition>
         </div>
@@ -62,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, toRaw, watch } from 'vue';
 import { useRegle } from '@regle/core';
 import { useI18n } from 'vue-i18n';
 import { maxLength, minLength, required, withMessage } from '@regle/rules';
@@ -71,14 +75,15 @@ import LabeledInput from '../../molecules/LabeledInput.vue';
 import LabeledTextarea from '../../molecules/LabeledTextarea.vue';
 import LabeledSelect from '../../molecules/LabeledSelect.vue';
 import ConfirmPopover from '../../molecules/ConfirmPopover.vue';
+import TagInput from '../../molecules/TagInput.vue';
 import TrashcanIcon from '../../atoms/icons/TrashcanIcon.vue';
 import UiButton from '../../atoms/UiButton.vue';
 
 const props = defineProps<{ editingTask: Task | null }>();
 
 const emits = defineEmits<{
-    (e: 'submit', updatedTask: Task): void;
-    (e: 'deleteTask', taskId: number): void;
+    (e: 'task:edit', updatedTask: Task): void;
+    (e: 'task:delete', taskId: number): void;
 }>();
 
 const { t } = useI18n();
@@ -88,16 +93,21 @@ const localTask = ref<Task | null>(null);
 const showConfirm = ref(false);
 
 const optionsWithLocales = [
-  { value: 'backlog', label: t('task.statuses.backlog') },
-  { value: 'to-do', label: t('task.statuses.to-do') },
-  { value: 'in-progress', label: t('task.statuses.in-progress') },
-  { value: 'awaiting', label: t('task.statuses.awaiting') },
+    { value: 'backlog', label: t('task.statuses.backlog') },
+    { value: 'to-do', label: t('task.statuses.to-do') },
+    { value: 'in-progress', label: t('task.statuses.in-progress') },
+    { value: 'awaiting', label: t('task.statuses.awaiting') },
 ];
 
 watch(
     () => props.editingTask,
-    () =>
-        props.editingTask ? (localTask.value = { ...props.editingTask }) : (localTask.value = null),
+    (newTask) => {
+        if (newTask) {
+            localTask.value = structuredClone(toRaw(newTask));
+        } else {
+            localTask.value = null;
+        }
+    },
     { immediate: true },
 );
 

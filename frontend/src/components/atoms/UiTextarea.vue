@@ -19,7 +19,8 @@ defineProps<TextareaProps>();
 textarea {
     width: 100%;
     min-height: 6rem;
-    padding: 1rem;
+    padding: 0.75em 1em;
+    font-size: 1rem;
 
     border-radius: 1em;
 

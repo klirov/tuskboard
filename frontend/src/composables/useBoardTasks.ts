@@ -3,7 +3,7 @@ import { useApi } from './useApi';
 import { useNotifications } from './useNotifications';
 import type { Status, Task } from '../../../shared/types';
 
-const URL = 'http://localhost:3000';
+const BACKEND_URL = 'http://localhost:3000';
 
 export function useBoardTasks(boardId: number) {
     const { requestApi } = useApi();
@@ -36,7 +36,7 @@ export function useBoardTasks(boardId: number) {
 
         loading.value = true;
         try {
-            tasks.value = await requestApi<Task[]>(`${URL}/tasks/${id.value}`);
+            tasks.value = await requestApi<Task[]>(`${BACKEND_URL}/tasks/${id.value}`);
         } catch (e) {
             showNotification('error', 'Failed to load tasks');
         } finally {

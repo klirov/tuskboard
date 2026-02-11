@@ -5,7 +5,6 @@
             class="tags"
             v-if="task.tags?.length"
         >
-            {{ t('task.tags') }}:
             <TaskTag
                 v-for="(tag, index) in task.tags"
                 :key="index"

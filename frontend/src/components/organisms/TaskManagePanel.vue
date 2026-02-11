@@ -7,10 +7,13 @@
         <TaskEditForm
             v-if="mode === 'edit'"
             :editingTask="editingTask"
-            @submit="emits('task:edit', $event)"
-            @deleteTask="emits('task:delete', $event)"
+            @task:edit="emits('task:edit', $event)"
+            @task:delete="emits('task:delete', $event)"
         />
-        <TaskCreatingForm v-if="mode === 'create'" />
+        <TaskCreatingForm
+            v-if="mode === 'create'"
+            @task:create="emits('task:create', $event)"
+        />
     </aside>
 </template>
 
@@ -21,9 +24,14 @@ import UiButton from '../atoms/UiButton.vue';
 import TaskEditForm from './forms/TaskEditForm.vue';
 import TaskCreatingForm from './forms/TaskCreatingForm.vue';
 
-const props = defineProps<{ editingTask: Task | null; mode?: 'edit' | 'create' | null }>();
+const props = defineProps<{
+    editingTask: Task | null;
+    boardId: number;
+    mode?: 'edit' | 'create' | null;
+}>();
 
 const emits = defineEmits<{
+    (e: 'task:create', task: Partial<Task>): void;
     (e: 'task:edit', updatedTask: Task): void;
     (e: 'task:delete', taskId: number): void;
     (e: 'request:close'): void;

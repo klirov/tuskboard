@@ -1,9 +1,9 @@
 <template>
     <div class="labeled-textarea">
         <header>
-            <label :for="id"
-                ><slot>{{ label }}</slot></label
-            >
+            <label :for="id">
+                <slot>{{ label }}</slot>
+            </label>
             <p
                 v-if="error"
                 :id="`${id}-error`"

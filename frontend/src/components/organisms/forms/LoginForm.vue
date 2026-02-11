@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRegle } from '@regle/core';
 import { email, minLength, required } from '@regle/rules';
 import { useAuth } from '../../../composables/useAuth';
@@ -48,7 +48,7 @@ import UiButton from '../../atoms/UiButton.vue';
 const router = useRouter();
 const { verifyUser } = useAuth(router);
 
-const formData = ref({
+const formData = reactive({
     email: '',
     password: '',
 });
@@ -66,7 +66,7 @@ async function login() {
 
     if (r$.$invalid) return;
 
-    await verifyUser(formData.value.email, formData.value.password);
+    await verifyUser(formData.email, formData.password);
 }
 </script>
 

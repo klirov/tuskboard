@@ -4,7 +4,7 @@ import type { Board } from '../../../shared/types';
 import { useApi } from '../composables/useApi';
 import { useNotifications } from '../composables/useNotifications';
 
-const URL = 'http://localhost:3000';
+const BACKEND_URL = 'http://localhost:3000';
 
 export const useBoardsStore = defineStore('boards', () => {
     const { requestApi } = useApi();
@@ -16,7 +16,7 @@ export const useBoardsStore = defineStore('boards', () => {
     async function getUserBoards(userId: number) {
         loading.value = true;
         try {
-            const data = await requestApi<Board[]>(`${URL}/boards/${userId}`, {
+            const data = await requestApi<Board[]>(`${BACKEND_URL}/boards/${userId}`, {
                 method: 'GET',
             });
             if (data) {
@@ -31,7 +31,7 @@ export const useBoardsStore = defineStore('boards', () => {
 
     async function createBoard(userId: number, boardData: Partial<Board>) {
         try {
-            await requestApi(`${URL}/boards/${userId}`, {
+            await requestApi(`${BACKEND_URL}/boards/${userId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(boardData),

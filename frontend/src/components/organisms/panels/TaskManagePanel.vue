@@ -2,7 +2,7 @@
     <aside class="panel">
         <header class="panel-header">
             <h2>{{ t('panel.manage-panel') }}</h2>
-            <UiButton @click="emits('request:close')">{{ t('close') }}</UiButton>
+            <UiButton @click="emits('panel:close')">{{ t('close') }}</UiButton>
         </header>
         <TaskEditForm
             v-if="mode === 'edit'"
@@ -19,10 +19,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import type { Task } from '../../../../shared/types';
-import UiButton from '../atoms/UiButton.vue';
-import TaskEditForm from './forms/TaskEditForm.vue';
-import TaskCreatingForm from './forms/TaskCreatingForm.vue';
+import type { Task } from '../../../../../shared/types';
+import UiButton from '../../atoms/UiButton.vue';
+import TaskEditForm from '../forms/TaskEditForm.vue';
+import TaskCreatingForm from '../forms/TaskCreateForm.vue';
 
 const props = defineProps<{
     editingTask: Task | null;
@@ -34,7 +34,7 @@ const emits = defineEmits<{
     (e: 'task:create', task: Partial<Task>): void;
     (e: 'task:edit', updatedTask: Task): void;
     (e: 'task:delete', taskId: number): void;
-    (e: 'request:close'): void;
+    (e: 'panel:close'): void;
 }>();
 
 const { t } = useI18n();

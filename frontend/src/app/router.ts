@@ -26,11 +26,15 @@ const routes: RouteRecordRaw[] = [
     },
     {
         path: '/board/:boardId(\\d+)',
-        name: 'board',
         component: () => import('../pages/Board.vue'),
         props: (route: RouteLocationNormalizedLoaded) => ({
             boardId: Number(route.params.boardId),
         }),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/archive',
+        component: () => import('../pages/Archive.vue'),
         meta: { requiresAuth: true },
     },
 ];

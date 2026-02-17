@@ -1,6 +1,5 @@
 <template>
     <svg
-        class="arrow"
         viewBox="0 0 20 20"
         fill="currentColor"
     >
@@ -9,9 +8,3 @@
         />
     </svg>
 </template>
-
-<style scoped>
-svg {
-    width: 1.25rem;
-}
-</style>

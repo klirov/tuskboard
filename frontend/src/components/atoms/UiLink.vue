@@ -33,8 +33,10 @@ const relComputed = computed(() => {
 
 <style scoped>
 .ui-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--color-text);
-    text-decoration: underline;
     font-size: inherit;
 }
 .ui-link:hover {

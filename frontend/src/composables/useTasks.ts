@@ -5,7 +5,7 @@ import type { Status, Task } from '../../../shared/types';
 
 const BACKEND_URL = 'http://localhost:3000';
 
-export function useBoardTasks(boardId: number) {
+export function useTasks(boardId: number) {
     const { requestApi } = useApi();
     const { showNotification } = useNotifications();
 
@@ -24,6 +24,7 @@ export function useBoardTasks(boardId: number) {
             'in-progress': [],
             awaiting: [],
             done: [],
+            cancelled: [],
         };
         tasks.value.forEach((t) => {
             if (t.status && map[t.status]) map[t.status].push(t);
@@ -31,7 +32,7 @@ export function useBoardTasks(boardId: number) {
         return map;
     });
 
-    async function loadTasks() {
+    async function getTasks() {
         if (!id.value) return;
 
         loading.value = true;
@@ -41,6 +42,39 @@ export function useBoardTasks(boardId: number) {
             showNotification('error', 'Failed to load tasks');
         } finally {
             loading.value = false;
+        }
+    }
+
+    async function createTask(task: Partial<Task>, boardId: number) {
+        try {
+            await requestApi(`${BACKEND_URL}/boards/${boardId}/tasks`, {
+                method: 'POST',
+                body: JSON.stringify(task),
+            });
+        } catch (e) {
+            throw new Error(`Error creating task: ${e}`);
+        }
+    }
+
+    async function editTask(taskData: Partial<Task>) {
+        try {
+            await requestApi(`${BACKEND_URL}/tasks/${taskData.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(taskData),
+            });
+        } catch (e) {
+            throw new Error(`Error editing task: ${e}`);
+        }
+    }
+
+    async function deleteTask(taskId: number) {
+        try {
+            await requestApi(`${BACKEND_URL}/tasks/${taskId}`, {
+                method: 'DELETE',
+            });
+        } catch (e) {
+            throw new Error(`Error deleting task: ${e}`);
         }
     }
 
@@ -58,11 +92,13 @@ export function useBoardTasks(boardId: number) {
     }
 
     return {
-        boardId,
         tasks,
-        tasksByStatus,
         loading,
-        loadTasks,
+        tasksByStatus,
+        createTask,
+        editTask,
+        deleteTask,
+        getTasks,
         moveTasksLocally,
     };
 }

@@ -28,7 +28,7 @@ const { fetchMe } = useAuth(router);
 
 await loadLocale(initialLocale);
 i18n.global.locale.value = initialLocale;
-await fetchMe();
 initTheme();
+await fetchMe();
 
 app.mount('#app');

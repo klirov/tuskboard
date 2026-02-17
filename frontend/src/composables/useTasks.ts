@@ -91,6 +91,11 @@ export function useTasks(boardId: number) {
         toArr.unshift(task);
     }
 
+    async function markDone(taskId: Task['id']) {
+        await editTask({ id: taskId, status: 'done' });
+        getTasks();
+    }
+
     return {
         tasks,
         loading,
@@ -100,5 +105,6 @@ export function useTasks(boardId: number) {
         deleteTask,
         getTasks,
         moveTasksLocally,
+        markDone,
     };
 }

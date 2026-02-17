@@ -1,9 +1,9 @@
 <template>
     <div class="labeled-select">
         <header>
-            <label :for="id"
-                ><slot>{{ label }}</slot></label
-            >
+            <label :for="id">
+                <slot>{{ label }}</slot>
+            </label>
             <p
                 v-if="error"
                 :id="`${id}-error`"
@@ -23,10 +23,11 @@
 </template>
 
 <script setup lang="ts">
+import { useId } from 'vue';
 import UiSelect from '../atoms/UiSelect.vue';
 import type { SelectProps } from '../atoms/UiSelect.vue';
 
-const id = crypto.randomUUID();
+const id = useId();
 
 const model = defineModel<string>();
 

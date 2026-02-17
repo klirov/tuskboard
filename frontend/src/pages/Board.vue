@@ -17,10 +17,12 @@
         <template #board-header>
             <HeaderTemplate>
                 <template #left-section>
-                    <UiButton @click="router.push('/boards')"> {{ t('back-to-boards') }} </UiButton>
+                    <AppLink to="/boards">
+                        <Back class="icon" /> {{ t('back-to-boards') }}
+                    </AppLink>
                 </template>
                 <template #center-section>
-                    <UiButton @click="openCreate">{{ t('task.create-new-task') }}</UiButton>
+                    <UiButton @click="toggle()">{{ t('task.create-new-task') }}</UiButton>
                 </template>
                 <template #right-section>
                     <SwitchLanguageButton /> <ThemeToggleButton /> <ProfileButton />
@@ -36,6 +38,7 @@
                 :tasks="tasksByStatus[status]"
                 :loading="loading"
                 @panel:edit="toggle"
+                @task:mark-done="markTaskDone"
                 @dnd:locally="moveTasksLocally"
                 @dnd:globally="moveTask"
             />
@@ -45,7 +48,6 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useNotifications } from '../composables/useNotifications';
 import { useTasks } from '../composables/useTasks';
@@ -60,18 +62,25 @@ import SwitchLanguageButton from '../components/molecules/SwitchLanguageButton.v
 import ThemeToggleButton from '../components/molecules/ThemeToggleButton.vue';
 import ProfileButton from '../components/molecules/ProfileButton.vue';
 import UiButton from '../components/atoms/UiButton.vue';
+import AppLink from '../components/molecules/AppLink.vue';
+import Back from '../components/atoms/icons/Back.vue';
 
 const props = defineProps<{ boardId: number }>();
 
-const router = useRouter();
-
 const { t } = useI18n();
 
-const { tasksByStatus, loading, editTask, createTask, deleteTask, getTasks, moveTasksLocally } =
-    useTasks(props.boardId);
+const {
+    tasksByStatus,
+    loading,
+    editTask,
+    createTask,
+    deleteTask,
+    getTasks,
+    moveTasksLocally,
+    markDone,
+} = useTasks(props.boardId);
 
-const { isOpen, editingItem, mode, openCreate, close, toggle } =
-    useManageEntityPanel<Task>();
+const { isOpen, editingItem, mode, close, toggle } = useManageEntityPanel<Task>();
 
 const { showNotification } = useNotifications();
 
@@ -130,10 +139,19 @@ async function tryToEditTask(updatedTask: Partial<Task>) {
     }
 }
 
+function markTaskDone(taskId: Task['id']) {
+    close();
+    markDone(taskId);
+}
+
 onMounted(getTasks);
 </script>
 
 <style scoped>
+.icon {
+    width: 1.25rem;
+}
+
 .slide-from-left-enter-active,
 .slide-from-left-leave-active {
     transition:

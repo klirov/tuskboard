@@ -17,6 +17,7 @@
                 <TaskCard
                     :task="element"
                     @panel:edit="emits('panel:edit', element)"
+                    @task:mark-done="emits('task:mark-done', $event)"
                 />
             </template>
         </draggable>
@@ -38,6 +39,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
     (e: 'panel:edit', task: Task): void;
+    (e: 'task:mark-done', taskId: Task['id']): void;
     (e: 'dnd:locally', data: { taskId: number; from: Status; to: Status }): void;
     (e: 'dnd:globally', task: { id: number; status: Status }): void;
 }>();

@@ -103,8 +103,12 @@ async function select(code: string) {
     font-weight: 600;
 }
 
+.arrow {
+    width: 1.25rem;
+    transition: transform 0.25s ease;
+}
+
 .language-switcher:hover .arrow {
     transform: rotate(180deg);
-    transition: transform 0.25s ease;
 }
 </style>

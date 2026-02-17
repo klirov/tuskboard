@@ -22,9 +22,10 @@
 </template>
 
 <script setup lang="ts">
+import { useId } from 'vue';
 import UiTextarea, { type TextareaProps } from '../atoms/UiTextarea.vue';
 
-const id = crypto.randomUUID();
+const id = useId();
 
 const model = defineModel<string>();
 

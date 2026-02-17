@@ -9,8 +9,8 @@
         </template>
     </HeaderTemplate>
     <div class="navigation-buttons">
-        <AppLink to="/boards">{{ t('go-to-boards') }}</AppLink>
-        <AppLink to="/"></AppLink>
+        <AppLink to="/boards">{{ t('boards') }}</AppLink>
+        <AppLink to="/archive">{{ t('archive') }}</AppLink>
     </div>
 </template>
 

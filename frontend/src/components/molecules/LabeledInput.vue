@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { useId } from 'vue';
 import UiInput, { type InputProps } from '../atoms/UiInput.vue';
 
 const model = defineModel<string>();
@@ -34,7 +35,7 @@ type LabeledInputProps = InputProps & {
     error?: string;
 };
 
-const id: string = `input-${crypto.randomUUID()}`;
+const id = useId();
 
 defineProps<LabeledInputProps>();
 </script>

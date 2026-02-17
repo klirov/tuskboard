@@ -1,8 +1,8 @@
 <template>
     <div
         class="task-card"
-        @mouseenter="isEditVisible = true"
-        @mouseleave="isEditVisible = false"
+        @mouseenter="isControlsVisible = true"
+        @mouseleave="isControlsVisible = false"
     >
         <TaskCardHeader
             :title="task.title"
@@ -14,18 +14,27 @@
             :createdAt="createdAt"
         />
 
-        <UiButton
-            v-if="isEditVisible"
-            size="s"
-            padding="0.25rem"
-            position="absolute"
-            top="1rem"
-            right="1rem"
-            boxShadow="0 3px 4px -2px rgba(0, 0, 0, 0.18)"
-            @click.stop="emits('panel:edit', task)"
-        >
-            <EditIcon class="edit-icon" />
-        </UiButton>
+        <Transition name="v">
+            <div
+                class="controls"
+                v-if="isControlsVisible"
+            >
+                <UiButton
+                    size="s"
+                    padding="0.25rem"
+                    @click.stop="emits('panel:edit', task)"
+                >
+                    <EditIcon class="icon" />
+                </UiButton>
+                <UiButton
+                    size="s"
+                    padding="0.25rem"
+                    @click.stop="emits('task:mark-done', task.id)"
+                >
+                    <Checkmark class="icon" />
+                </UiButton>
+            </div>
+        </Transition>
     </div>
 </template>
 
@@ -38,16 +47,18 @@ import TaskCardHeader from '../molecules/TaskCardHeader.vue';
 import TaskCardContent from '../molecules/TaskCardContent.vue';
 import UiButton from '../atoms/UiButton.vue';
 import EditIcon from '../atoms/icons/EditIcon.vue';
+import Checkmark from '../atoms/icons/Checkmark.vue';
 
 const props = defineProps<{ task: Task }>();
 
 const emits = defineEmits<{
     (e: 'panel:edit', task: Task): void;
+    (e: 'task:mark-done', taskId: Task['id']): void;
 }>();
 
 const { locale } = useLocale();
 
-const isEditVisible = ref(false);
+const isControlsVisible = ref(false);
 
 const cardBackground = computed<string>(() => {
     const hue = makeHueFromId(props.task.id);
@@ -77,8 +88,29 @@ const createdAt = computed<ReturnType<typeof Date>>(() => {
     color: var(--color-text);
     background-color: var(--color-secondary);
 }
-.edit-icon {
-    width: 2rem;
-    height: 2rem;
+.controls {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon {
+    width: 1.5rem;
+    aspect-ratio: 1 / 1;
+}
+.v-enter-active,
+.v-leave-active,
+.v-appear-active {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v-enter-from,
+.v-leave-to,
+.v-appear-from {
+    opacity: 0;
+    transform: translateY(10px);
 }
 </style>

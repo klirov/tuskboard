@@ -16,6 +16,7 @@ header {
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     box-shadow: 0 0 0 0.5px var(--color-border);
     background-color: var(--color-secondary);

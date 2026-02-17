@@ -1,46 +1,50 @@
 <template>
     <form
-        class="task-create-form"
-        @submit.prevent="emits('task:create', localTask)"
-        aria-labelledby="task-create-title"
+        class="board-create-form"
+        @submit.prevent="emits('board:create', localBoard)"
+        aria-labelledby="board-create-title"
     >
-        <h2 id="task-create-title">{{ t('task.create-task') }}:</h2>
+        <h2 id="board-create-title">
+            <span class="board-title">{{ t('board.creating-board') }}:</span>
+        </h2>
+
         <fieldset>
-            <legend class="visually-hidden">{{ t('task.task-data') }}</legend>
+            <legend class="visually-hidden">{{ t('board.board-data') }}</legend>
 
             <LabeledInput
                 :label="t('title')"
                 type="text"
-                :placeholder="t('task.enter-title')"
+                :placeholder="t('board.enter-title')"
                 :error="r$?.title?.$errors[0]"
-                v-model="localTask.title"
+                v-model="localBoard.title"
                 aria-required="true"
             />
+
             <LabeledTextarea
                 :label="t('description')"
-                :placeholder="t('task.enter-description')"
-                v-model="localTask.description"
+                :placeholder="t('board.enter-description')"
+                v-model="localBoard.description"
                 :error="r$?.description?.$errors[0]"
             />
-            <LabeledSelect
-                :label="t('status')"
-                :title="`${t('task.choose-status')}:`"
-                v-model="localTask.status"
-                :error="r$?.status?.$errors[0]"
-                :options="optionsWithLocales"
-                aria-required="true"
+
+            <LabeledColorPicker
+                label="Color"
+                v-model="localBoard.color"
             />
-            <TagInput
-                :label="t('task.tags')"
-                v-model="localTask.tags"
+
+            <LabeledToggle
+                :label="t('board.archived')"
+                v-model="localBoard.is_archived"
             />
         </fieldset>
+
         <div class="buttons">
             <UiButton
                 class="submit-button"
                 type="submit"
-                >{{ t('task.create-task') }}</UiButton
             >
+                {{ t('save-changes') }}
+            </UiButton>
         </div>
     </form>
 </template>
@@ -50,87 +54,82 @@ import { ref } from 'vue';
 import { useRegle } from '@regle/core';
 import { useI18n } from 'vue-i18n';
 import { maxLength, minLength, required, withMessage } from '@regle/rules';
-import type { Task } from '../../../../../shared/types';
+import type { Board } from '../../../../../shared/types';
+
 import LabeledInput from '../../molecules/LabeledInput.vue';
 import LabeledTextarea from '../../molecules/LabeledTextarea.vue';
-import LabeledSelect from '../../molecules/LabeledSelect.vue';
-import TagInput from '../../molecules/TagInput.vue';
 import UiButton from '../../atoms/UiButton.vue';
+import LabeledColorPicker from '../../molecules/LabeledColorPicker.vue';
+import LabeledToggle from '../../molecules/LabeledToggle.vue';
 
 const emits = defineEmits<{
-    (e: 'task:create', task: Partial<Task>): void;
+    (e: 'board:create', board: Partial<Board>): void;
 }>();
 
 const { t } = useI18n();
 
-const localTask = ref<Partial<Task>>({
+const localBoard = ref<Partial<Board>>({
     title: '',
     description: '',
-    tags: [],
-    status: 'to-do',
+    color: '',
+    is_archived: false,
 });
 
-const optionsWithLocales = [
-    { value: 'backlog', label: t('task.statuses.backlog') },
-    { value: 'to-do', label: t('task.statuses.to-do') },
-    { value: 'in-progress', label: t('task.statuses.in-progress') },
-    { value: 'awaiting', label: t('task.statuses.awaiting') },
-];
-
-const { r$ } = useRegle(localTask.value, {
+const { r$ } = useRegle(localBoard.value, {
     title: {
         required: withMessage(required, () => t('form.field-required')),
-        minLength: withMessage(minLength(3), () => `${t('form.minimum-length')}: 3`),
+        minLength: withMessage(minLength(2), () => `${t('form.minimum-length')}: 2`),
         maxLength: withMessage(maxLength(255), () => `${t('form.maximum-length')}: 255`),
     },
     description: {
-        maxLength: withMessage(maxLength(1000), `${t('form.maximum-length')}: 1000`),
-    },
-    status: {
-        required: withMessage(required, t('form.field-required')),
+        maxLength: withMessage(maxLength(1500), () => `${t('form.maximum-length')}: 1500`),
     },
 });
 </script>
 
 <style scoped>
-.task-create-form {
+.board-create-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-
     padding: 1rem;
 }
+
 .visually-hidden {
     display: none;
 }
-.task-title {
+
+.board-title {
     color: var(--color-accent);
 }
+
 fieldset {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
     border: none;
     padding: 0;
     margin: 0;
 }
+
 .buttons {
     position: relative;
-    width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 0.5rem;
+    margin-top: 1rem;
 }
+
 .submit-button {
     width: 100%;
 }
+
 .icon {
-    width: 1rem;
+    width: 1.1rem;
     color: var(--color-text);
 }
+
 .fade-scale-enter-active,
 .fade-scale-leave-active {
     transition: all 0.25s ease;

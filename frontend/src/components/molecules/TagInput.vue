@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, useTemplateRef } from 'vue';
+import { nextTick, ref, useId, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import TaskTag from '../atoms/TaskTag.vue';
 
@@ -57,10 +57,9 @@ const tags = defineModel<string[]>({
     default: () => [],
 });
 
-const id = `tag-input-${crypto.randomUUID()}`;
+const id = useId();
 const inputRef = useTemplateRef('inputRef');
 const currentInput = ref('');
-
 
 function addTag(value: string) {
     const trimmed = value.trim();

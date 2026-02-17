@@ -24,6 +24,7 @@ export function registerBoardsRoutes(app: Hono<AppEnv>) {
 
         return c.json(ok<Board[]>(boards));
     });
+
     app.post('/boards/:userId', async (c) => {
         const userId = c.req.param('userId');
 
@@ -59,6 +60,36 @@ export function registerBoardsRoutes(app: Hono<AppEnv>) {
             return c.json(fail(`Failed to create board: ${String(error)}`, 500));
         }
     });
+
+    app.put('/boards/:boardId', async (c) => {
+        const boardId = c.req.param('boardId');
+
+        const [rows] = await pool.query<RowDataPacket[]>(
+            'SELECT * FROM boards WHERE id = ? LIMIT 1',
+            [boardId],
+        );
+
+        const existingBoard = rows[0] as Board;
+        const body = await c.req.json<Partial<Board>>();
+
+        const title = body.title?.trim() ?? existingBoard.title;
+        const description = body.description?.trim() ?? existingBoard.description;
+        const color = body.color ?? existingBoard.color;
+        const is_archived = body.is_archived ?? existingBoard.is_archived;
+        const order = body.order ?? existingBoard.order;
+
+        try {
+            const [result] = await pool.query<ResultSetHeader>(
+                'UPDATE boards SET title = ?, description = ?, color = ?, is_archived = ?, `order` = ? WHERE id = ?',
+                [title, description, color, is_archived, order, boardId],
+            );
+            if (result.affectedRows === 1) return c.json(ok(result));
+        } catch (error) {
+            console.error(error);
+            return c.json(fail('Failed to update board', 500));
+        }
+    });
+
     app.delete('/boards/:boardId', async (c) => {
         const boardId = c.req.param('boardId');
 

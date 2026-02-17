@@ -25,7 +25,7 @@ export type Board = {
     order?: number;
 };
 
-export type Status = 'backlog' | 'to-do' | 'in-progress' | 'awaiting' | 'done';
+export type Status = 'backlog' | 'to-do' | 'in-progress' | 'awaiting' | 'done' | 'cancelled';
 
 export type ActiveStatus = 'backlog' | 'to-do' | 'in-progress' | 'awaiting';
 

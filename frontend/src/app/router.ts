@@ -47,7 +47,6 @@ export const router = createRouter({
 router.beforeEach(
     async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext) => {
         const userStore = useUserStore();
-        const { boards, getBoards } = useBoards(userStore.user?.id ?? null);
 
         if (!userStore.user) {
             try {
@@ -62,6 +61,8 @@ router.beforeEach(
 
             if (to.name === 'board') {
                 const boardId = Number(to.params.boardId);
+
+                const { boards, getBoards } = useBoards(userStore.user?.id ?? null);
 
                 if (boards.value.length === 0) {
                     await getBoards();

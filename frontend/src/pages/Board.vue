@@ -3,18 +3,30 @@
         <template #edit-panel>
             <Transition name="slide-from-left">
                 <TaskManagePanel
-                    v-if="isManagingTask"
-                    :editingTask="editingTask"
-                    :mode="managingMode"
-                    @request:close="toggleTaskManager"
-                    @task:create="tryToCreateTask($event)"
-                    @task:delete="tryToDeleteTask($event)"
-                    @task:edit="tryToEditTask($event)"
+                    v-if="isOpen"
+                    :editingTask="editingItem"
+                    :mode="mode"
+                    @panel:close="close"
+                    @task:create="tryToCreateTask"
+                    @task:delete="tryToDeleteTask"
+                    @task:edit="tryToEditTask"
                     :board-id="boardId"
                 />
             </Transition>
         </template>
-        <template #board-header> <BoardHeader @task:create="toggleCreatePanel" /></template>
+        <template #board-header>
+            <HeaderTemplate>
+                <template #left-section>
+                    <UiButton @click="router.push('/boards')"> {{ t('back-to-boards') }} </UiButton>
+                </template>
+                <template #center-section>
+                    <UiButton @click="openCreate">{{ t('task.create-new-task') }}</UiButton>
+                </template>
+                <template #right-section>
+                    <SwitchLanguageButton /> <ThemeToggleButton /> <ProfileButton />
+                </template>
+            </HeaderTemplate>
+        </template>
         <template #board-columns>
             <BoardColumn
                 v-for="status in renderStatuses"
@@ -23,7 +35,7 @@
                 :title="getColumnTitle(status)"
                 :tasks="tasksByStatus[status]"
                 :loading="loading"
-                @request:edit="toggleTaskManager"
+                @panel:edit="toggle"
                 @dnd:locally="moveTasksLocally"
                 @dnd:globally="moveTask"
             />
@@ -33,30 +45,35 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useTasksStore } from '../stores/useTasks';
 import { useNotifications } from '../composables/useNotifications';
-import { useBoardTasks } from '../composables/useBoardTasks';
+import { useTasks } from '../composables/useTasks';
+import { useManageEntityPanel } from '../composables/useManageEntityPanel';
 import type { Status, ActiveStatus, Task } from '../../../shared/types';
-import TaskManagePanel from '../components/organisms/TaskManagePanel.vue';
+
 import BoardTemplate from '../components/templates/BoardTemplate.vue';
-import BoardHeader from '../components/organisms/headers/BoardHeader.vue';
+import TaskManagePanel from '../components/organisms/panels/TaskManagePanel.vue';
 import BoardColumn from '../components/organisms/BoardColumn.vue';
+import HeaderTemplate from '../components/templates/HeaderTemplate.vue';
+import SwitchLanguageButton from '../components/molecules/SwitchLanguageButton.vue';
+import ThemeToggleButton from '../components/molecules/ThemeToggleButton.vue';
+import ProfileButton from '../components/molecules/ProfileButton.vue';
+import UiButton from '../components/atoms/UiButton.vue';
 
 const props = defineProps<{ boardId: number }>();
 
-const tasksStore = useTasksStore();
-
-const { managingMode, editingTask, isManagingTask } = storeToRefs(tasksStore);
-
-const { toggleCreatePanel, toggleTaskManager, createTask, editTask, deleteTask } = tasksStore;
-
-const { tasksByStatus, loading, loadTasks, moveTasksLocally } = useBoardTasks(props.boardId);
-
-const { showNotification } = useNotifications();
+const router = useRouter();
 
 const { t } = useI18n();
+
+const { tasksByStatus, loading, editTask, createTask, deleteTask, getTasks, moveTasksLocally } =
+    useTasks(props.boardId);
+
+const { isOpen, editingItem, mode, openCreate, close, toggle } =
+    useManageEntityPanel<Task>();
+
+const { showNotification } = useNotifications();
 
 const renderStatuses = [
     'backlog',
@@ -81,9 +98,9 @@ async function tryToCreateTask(task: Partial<Task>) {
     try {
         await createTask(task, props.boardId);
 
-        toggleTaskManager();
+        toggle();
 
-        await loadTasks();
+        await getTasks();
     } catch {
         showNotification('error', 'Failed to create task.');
     }
@@ -93,9 +110,9 @@ async function tryToDeleteTask(taskId: number) {
     try {
         await deleteTask(taskId);
 
-        toggleTaskManager();
+        toggle();
 
-        await loadTasks();
+        await getTasks();
     } catch {
         showNotification('error', 'Failed to delete task.');
     }
@@ -105,15 +122,15 @@ async function tryToEditTask(updatedTask: Partial<Task>) {
     try {
         await editTask(updatedTask);
 
-        toggleTaskManager();
+        toggle();
 
-        await loadTasks();
+        await getTasks();
     } catch {
         showNotification('error', 'Failed to edit task. Please try again.');
     }
 }
 
-onMounted(() => loadTasks());
+onMounted(getTasks);
 </script>
 
 <style scoped>

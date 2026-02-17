@@ -1,13 +1,17 @@
 <template>
     <div>
-        <ThemeToggleButton />
-        <AppLink to="/register">Авторизация</AppLink>
+        <h1>Welcome to tuskmanager!</h1>
+        <h2>
+            <AppLink to="/register">{{ t('authorize') }}</AppLink>
+        </h2>
     </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import AppLink from '../components/molecules/AppLink.vue';
-import ThemeToggleButton from '../components/molecules/ThemeToggleButton.vue';
+
+const { t } = useI18n();
 </script>
 
 <style scoped>

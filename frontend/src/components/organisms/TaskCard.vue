@@ -1,20 +1,31 @@
 <template>
     <div
         class="task-card"
-        @mouseenter="editButtonShown = true"
-        @mouseleave="editButtonShown = false"
+        @mouseenter="isEditVisible = true"
+        @mouseleave="isEditVisible = false"
     >
         <TaskCardHeader
             :title="task.title"
             :background="cardBackground"
-            :showEditButton="editButtonShown"
-            @request:edit="emits('request:edit', task)"
         />
 
         <TaskCardContent
             :task="task"
             :createdAt="createdAt"
         />
+
+        <UiButton
+            v-if="isEditVisible"
+            size="s"
+            padding="0.25rem"
+            position="absolute"
+            top="1rem"
+            right="1rem"
+            boxShadow="0 3px 4px -2px rgba(0, 0, 0, 0.18)"
+            @click.stop="emits('panel:edit', task)"
+        >
+            <EditIcon class="edit-icon" />
+        </UiButton>
     </div>
 </template>
 
@@ -25,16 +36,18 @@ import type { Task } from '../../../../shared/types';
 import { makeHueFromId } from '../../utils/GenerateCardColors';
 import TaskCardHeader from '../molecules/TaskCardHeader.vue';
 import TaskCardContent from '../molecules/TaskCardContent.vue';
+import UiButton from '../atoms/UiButton.vue';
+import EditIcon from '../atoms/icons/EditIcon.vue';
 
 const props = defineProps<{ task: Task }>();
 
 const emits = defineEmits<{
-    (e: 'request:edit', task: Task): void;
+    (e: 'panel:edit', task: Task): void;
 }>();
 
 const { locale } = useLocale();
 
-const editButtonShown = ref(false);
+const isEditVisible = ref(false);
 
 const cardBackground = computed<string>(() => {
     const hue = makeHueFromId(props.task.id);
@@ -52,6 +65,7 @@ const createdAt = computed<ReturnType<typeof Date>>(() => {
 <style scoped>
 .task-card {
     cursor: grab;
+    position: relative;
 
     display: flex;
     flex-direction: column;
@@ -62,5 +76,9 @@ const createdAt = computed<ReturnType<typeof Date>>(() => {
     border-radius: 0.5rem;
     color: var(--color-text);
     background-color: var(--color-secondary);
+}
+.edit-icon {
+    width: 2rem;
+    height: 2rem;
 }
 </style>

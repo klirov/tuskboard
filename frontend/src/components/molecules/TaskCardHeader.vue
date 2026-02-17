@@ -4,24 +4,10 @@
         :style="{ 'background-color': background }"
     >
         <h3>{{ title }}</h3>
-        <UiButton
-            v-if="showEditButton"
-            size="s"
-            padding="0"
-            width="2rem"
-            height="2rem"
-            boxShadow="0 3px 4px -2px rgba(0, 0, 0, 0.18)"
-            @click="emits('request:edit')"
-        >
-            <EditIcon class="edit-icon" />
-        </UiButton>
     </header>
 </template>
 
 <script setup lang="ts">
-import UiButton from '../atoms/UiButton.vue';
-import EditIcon from '../atoms/icons/EditIcon.vue';
-
 defineProps<{
     title: string;
     background: string;

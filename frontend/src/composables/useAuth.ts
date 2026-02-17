@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia';
-import { useUserStore } from '../stores/useUser';
+import { useUserStore } from '../stores/user';
 import { type Router } from 'vue-router';
 import { useApi } from './useApi';
 import type { User } from '../../../shared/types';
@@ -42,12 +42,13 @@ export function useAuth(router: Router) {
         }
     }
 
-    async function fetchMe() {
+    async function fetchMe(): Promise<User | null> {
         try {
             const data = await requestApi<User>(`${BACKEND_URL}/protected/me`);
             if (data) {
                 user.value = data;
             }
+            return data;
         } catch {
             return null;
         }
@@ -59,6 +60,7 @@ export function useAuth(router: Router) {
                 method: 'POST',
             });
             user.value = null;
+            router.push('/login');
         } catch {
             throw new Error('Логаут не удался');
         }

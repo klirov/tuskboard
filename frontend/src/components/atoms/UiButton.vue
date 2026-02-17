@@ -20,6 +20,11 @@ export type ButtonProps = {
     aspectRatio?: string;
     boxShadow?: string;
     backgroundColor?: string;
+    position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
+    top?: string;
+    left?: string;
+    right?: string;
+    bottom?: string;
 };
 
 const props = withDefaults(defineProps<ButtonProps>(), {
@@ -28,6 +33,11 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     aspectRatio: undefined,
     boxShadow: undefined,
     backgroundColor: undefined,
+    position: 'relative',
+    top: undefined,
+    left: undefined,
+    right: undefined,
+    bottom: undefined,
 });
 
 const buttonStyles = computed(() => {
@@ -38,6 +48,11 @@ const buttonStyles = computed(() => {
         'aspect-ratio': props.aspectRatio,
         'box-shadow': props.boxShadow,
         'background-color': props.backgroundColor,
+        position: props.position,
+        top: props.top,
+        left: props.left,
+        right: props.right,
+        bottom: props.bottom,
     };
 });
 
@@ -64,7 +79,7 @@ button {
     justify-content: center;
     align-items: center;
     text-align: center;
-    
+
     gap: 0.5rem;
 }
 .button--xs {

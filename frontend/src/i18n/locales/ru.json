@@ -3,9 +3,16 @@
     "no": "Нет",
     "close": "Закрыть",
     "save-changes": "Сохранить изменения",
+    "authorize": "Авторизоваться",
+    "custom": "Custom",
+    "current": "Текущий",
+    "go-to-boards": "Перейти к доскам",
+    "back-to-boards": "Вернуться к доскам",
     "title": "Название",
     "description": "Описание",
     "status": "Статус",
+    "archive": "Архив",
+    "boards": "Доски",
     "task": {
         "tags": "Теги",
         "created": "Создано",
@@ -13,8 +20,8 @@
         "task-data": "Данные задачи",
         "create-task": "Создать задачу",
         "create-new-task": "Создать новую задачу",
-        "edit-task": "Редактирование задачи",
-        "loading-tasks": "Загружаю задачи",
+        "editing-task": "Редактирование задачи",
+        "loading-tasks": "Загружаем задачи",
         "no-tasks-yet": "Пока нет задач",
         "enter-title": "Введи название задачи",
         "enter-description": "Введи описание задачи",
@@ -23,9 +30,22 @@
             "backlog": "Отложено",
             "to-do": "Запланировано",
             "in-progress": "В работе",
-            "awaiting": "Ожидают"
+            "awaiting": "Ожидают",
+            "done": "Выполнено",
+            "cancelled": "Отменено"
         },
         "enter-tag": "Введите тег"
+    },
+    "board": {
+        "board-data": "Данные доски",
+        "create-new-board": "Создать новую доску",
+        "enter-title": "Введи название доски",
+        "enter-description": "Введи описание доски",
+        "creating-board": "Создание доски",
+        "editing-board": "Редактирвоание доски",
+        "loading-boards": "Загружаем доски",
+        "no-boards-yet": "Пока нет досок",
+        "archived": "В архиве"
     },
     "panel": {
         "manage-panel": "Панель управления задачами"

@@ -22,6 +22,10 @@ export function registerBoardsRoutes(app: Hono<AppEnv>) {
 
         const boards = rows as Board[];
 
+        for (const board of boards) {
+            board.is_archived = !!board.is_archived
+        }
+
         return c.json(ok<Board[]>(boards));
     });
 

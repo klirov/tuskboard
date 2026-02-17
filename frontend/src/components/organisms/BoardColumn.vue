@@ -16,7 +16,7 @@
             <template #item="{ element }">
                 <TaskCard
                     :task="element"
-                    @request:edit="emits('request:edit', element)"
+                    @panel:edit="emits('panel:edit', element)"
                 />
             </template>
         </draggable>
@@ -37,7 +37,7 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-    (e: 'request:edit', task: Task): void;
+    (e: 'panel:edit', task: Task): void;
     (e: 'dnd:locally', data: { taskId: number; from: Status; to: Status }): void;
     (e: 'dnd:globally', task: { id: number; status: Status }): void;
 }>();

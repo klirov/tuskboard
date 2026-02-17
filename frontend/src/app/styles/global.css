@@ -3,7 +3,7 @@
 :root[data-theme='light'] {
     --color-bg: #f5f4f8;
     --color-bg-secondary: #efefef;
-    --color-secondary: #EFEEF5;
+    --color-secondary: #efeef5;
     --color-accent: #a1bca9;
     --color-text: #1f1d28;
     --color-placeholder: rgba(31, 29, 40, 0.7);
@@ -28,6 +28,7 @@
 
 html {
     font-size: clamp(12px, 0.7vw + 10px, 16px);
+    scrollbar-color: var(--color-accent) var(--color-bg);
 }
 
 body {

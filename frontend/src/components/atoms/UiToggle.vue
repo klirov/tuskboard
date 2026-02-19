@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-const model = defineModel<boolean>({ required: true });
+const model = defineModel<boolean>();
 
 const props = defineProps<{
     disabled?: boolean;

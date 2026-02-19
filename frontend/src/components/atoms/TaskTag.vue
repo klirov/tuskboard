@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { tagColor } from '../../utils/GenerateCardColors';
+import { tagColor } from '../../utils/generateCardColors';
 
 defineProps<{
     tag: string;

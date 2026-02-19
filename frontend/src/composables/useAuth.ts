@@ -1,5 +1,5 @@
 import { storeToRefs } from 'pinia';
-import { useUserStore } from '../stores/user';
+import { useUserStore } from '../stores/userStore';
 import { type Router } from 'vue-router';
 import { useApi } from './useApi';
 import type { User } from '../../../shared/types';

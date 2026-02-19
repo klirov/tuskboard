@@ -42,7 +42,7 @@
 import { computed, ref } from 'vue';
 import { useLocale } from '../../composables/useLocale';
 import type { Task } from '../../../../shared/types';
-import { makeHueFromId } from '../../utils/GenerateCardColors';
+import { makeHueFromId } from '../../utils/generateCardColors';
 import TaskCardHeader from '../molecules/TaskCardHeader.vue';
 import TaskCardContent from '../molecules/TaskCardContent.vue';
 import UiButton from '../atoms/UiButton.vue';

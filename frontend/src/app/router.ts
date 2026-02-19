@@ -6,7 +6,7 @@ import {
     type RouteLocationNormalizedLoaded,
     type RouteRecordRaw,
 } from 'vue-router';
-import { useUserStore } from '../stores/user';
+import { useUserStore } from '../stores/userStore';
 import { useBoards } from '../composables/useBoards';
 import { useAuth } from '../composables/useAuth';
 

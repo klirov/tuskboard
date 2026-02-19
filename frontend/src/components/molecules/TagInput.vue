@@ -7,36 +7,36 @@
                 </slot>
             </label>
         </header>
-    </div>
-    <div
-        class="tag-input-container"
-        @click="focusInput"
-    >
-        <TaskTag
-            v-for="(tag, index) in tags"
-            :key="tag"
-            class="tag-chip"
-            :tag="tag"
+        <div
+            class="tag-input-container"
+            @click="focusInput"
         >
-            <button
-                type="button"
-                class="tag-remove"
-                @click.stop="removeTag(index)"
+            <TaskTag
+                v-for="(tag, index) in tags"
+                :key="tag"
+                class="tag-chip"
+                :tag="tag"
             >
-                ×
-            </button>
-        </TaskTag>
+                <button
+                    type="button"
+                    class="tag-remove"
+                    @click.stop="removeTag(index)"
+                >
+                    ×
+                </button>
+            </TaskTag>
 
-        <input
-            ref="inputRef"
-            :id="id"
-            v-model="currentInput"
-            type="text"
-            :placeholder="placeholder || `${t('task.enter-tag')}... (Space/Enter)`"
-            class="tag-input-field"
-            @keydown="handleKeydown"
-            @paste="handlePaste"
-        />
+            <input
+                ref="inputRef"
+                :id="id"
+                v-model="currentInput"
+                type="text"
+                :placeholder="placeholder || `${t('task.enter-tag')}... (Space/Enter)`"
+                class="tag-input-field"
+                @keydown="handleKeydown"
+                @paste="handlePaste"
+            />
+        </div>
     </div>
 </template>
 
@@ -107,6 +107,10 @@ function handlePaste(e: ClipboardEvent) {
 
 <style scoped>
 .labeled-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
     width: 100%;
 
     color: var(--color-text);

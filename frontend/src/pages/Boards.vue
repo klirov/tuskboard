@@ -41,7 +41,7 @@ import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import type { Board } from '../../../shared/types';
-import { useUserStore } from '../stores/user';
+import { useUserStore } from '../stores/userStore';
 import { useManageEntityPanel } from '../composables/useManageEntityPanel';
 import { useNotifications } from '../composables/useNotifications';
 import { useBoards } from '../composables/useBoards';

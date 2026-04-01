@@ -1,5 +1,32 @@
 @import './reset.css';
 
+:root {
+    --el-color-primary: var(--color-accent) !important;
+    --el-color-danger: var(--color-danger) !important;
+
+    --el-font-family: 'Inter', sans-serif !important;
+}
+
+:root[data-theme='light'] {
+    --el-bg-color: var(--color-bg);
+    --el-bg-color-overlay: var(--color-bg-secondary);
+    --el-text-color-primary: var(--color-text);
+    --el-border-color-light: var(--color-border);
+}
+
+:root[data-theme='dark'] {
+    --el-bg-color: var(--color-bg);
+    --el-bg-color-overlay: var(--color-bg-secondary);
+    --el-text-color-primary: var(--color-text);
+    --el-border-color-light: var(--color-border);
+}
+
+:root {
+    --color-border: gray;
+    --color-danger: red;
+    --color-card-text: #2c2c44;
+}
+
 :root[data-theme='light'] {
     --color-bg: #f5f4f8;
     --color-bg-secondary: #efefef;
@@ -7,9 +34,6 @@
     --color-accent: #a1bca9;
     --color-text: #1f1d28;
     --color-placeholder: rgba(31, 29, 40, 0.7);
-    --color-card-text: #2c2c44;
-    --color-border: gray;
-    --color-danger: red;
 }
 
 :root[data-theme='dark'] {
@@ -19,9 +43,6 @@
     --color-accent: #a1bca9;
     --color-text: #ffffff;
     --color-placeholder: rgba(255, 255, 255, 0.4);
-    --color-card-text: #2c2c44;
-    --color-border: gray;
-    --color-danger: red;
 }
 
 /*? Стандартные настройки приложения */

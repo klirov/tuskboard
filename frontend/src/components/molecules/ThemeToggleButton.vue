@@ -17,22 +17,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import UiButton from '../atoms/UiButton.vue';
-import { useColorTheme } from '../../composables/useColorTheme';
+import { useColorTheme } from '../../core/theme/useColorTheme';
 
-import LightThemeIcon from '../atoms/icons/LightThemeIcon.vue';
-import DarkThemeIcon from '../atoms/icons/DarkThemeIcon.vue';
+import LightTheme from '../../shared/ui/icons/LightTheme.vue';
+import DarkTheme from '../../shared/ui/icons/DarkTheme.vue';
 
-const { toggleTheme, initTheme, currentTheme } = useColorTheme();
+const { toggleTheme, currentTheme } = useColorTheme();
 
-const ToggleThemeIcon = computed(() =>
-    currentTheme.value === 'light' ? LightThemeIcon : DarkThemeIcon,
-);
+const ToggleThemeIcon = computed(() => (currentTheme.value === 'light' ? LightTheme : DarkTheme));
 
 const transitionName = computed(() => (currentTheme.value === 'light' ? 'to-light' : 'to-dark'));
-
-onMounted(() => initTheme());
 </script>
 
 <style scoped>

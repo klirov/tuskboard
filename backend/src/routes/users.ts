@@ -5,7 +5,6 @@ import { pool } from '../db';
 import { ok } from '../utils/apiResponse';
 
 export function registerUserRoutes(app: Hono<AppEnv>) {
-    //* Get all users
 
     app.get('/users', async (c) => {
         const [rows] = await pool.query<RowDataPacket[]>(

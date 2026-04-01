@@ -31,6 +31,7 @@
                     <input
                         type="color"
                         class="native-color-input"
+                        v-bind="$attrs"
                         v-model="model"
                     />
                     <span class="hex-value">{{ model || '#a1bca9' }}</span>
@@ -43,6 +44,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+defineOptions({ inheritAttrs: false });
 
 const model = defineModel<string>();
 

@@ -1,19 +1,18 @@
 <template>
     <input
-        :placeholder
-        :type
-        spellcheck="false"
+        :type="type"
+        v-bind="$attrs"
         v-model="model"
+        spellcheck="false"
     />
 </template>
 
 <script setup lang="ts">
-type InputTypes = 'text' | 'password' | 'email' | 'number';
-
 export type InputProps = {
-    placeholder?: string;
-    type?: InputTypes;
+    type?: 'text' | 'password' | 'email' | 'number';
 };
+
+defineOptions({ inheritAttrs: false });
 
 const model = defineModel<string>();
 

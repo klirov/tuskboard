@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import AppLink from '../components/molecules/AppLink.vue';
-import HeaderTemplate from '../components/templates/HeaderTemplate.vue';
+import HeaderTemplate from '../shared/layouts/HeaderTemplate.vue';
 import SwitchLanguageButton from '../components/molecules/SwitchLanguageButton.vue';
 import ThemeToggleButton from '../components/molecules/ThemeToggleButton.vue';
 import ProfileButton from '../components/molecules/ProfileButton.vue';

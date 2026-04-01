@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import { nextTick, ref, useId, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
-import TaskTag from '../atoms/TaskTag.vue';
+import TaskTag from '../../modules/tasks/components/TaskTag.vue';
 
 const { t } = useI18n();
 

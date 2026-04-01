@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import Toast from '../atoms/UiNotificationToast.vue';
-import { useNotifications } from '../../composables/useNotifications';
+import { useNotifications } from '../../shared/composables/useNotifications';
 
 const { notifications } = useNotifications();
 </script>

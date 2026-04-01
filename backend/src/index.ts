@@ -5,6 +5,7 @@ import { registerAuthRoutes } from './routes/auth';
 import { registerUserRoutes } from './routes/users';
 import { registerTasksRoutes } from './routes/tasks';
 import { registerBoardsRoutes } from './routes/boards';
+import { registerArchiveRoutes } from './routes/archive';
 
 const app = new Hono<AppEnv>();
 
@@ -22,5 +23,6 @@ registerAuthRoutes(app);
 registerUserRoutes(app);
 registerBoardsRoutes(app);
 registerTasksRoutes(app);
+registerArchiveRoutes(app);
 
 export default app;

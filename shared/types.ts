@@ -40,6 +40,10 @@ export type Task = {
     created_at: Date;
 };
 
+export type ArchivedTask = Task & {
+    board_title?: string;
+};
+
 export type RegisterIncomingData = {
     email: string;
     password: string;

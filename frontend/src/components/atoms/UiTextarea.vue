@@ -1,16 +1,19 @@
 <template>
     <textarea
         v-model="model"
+        v-bind="$attrs"
         :placeholder="placeholder"
-    ></textarea>
+    />
 </template>
 
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+
 const model = defineModel<string>();
 
 export type TextareaProps = {
     placeholder?: string;
-}
+};
 
 defineProps<TextareaProps>();
 </script>

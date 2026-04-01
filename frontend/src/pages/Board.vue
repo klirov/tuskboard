@@ -38,7 +38,7 @@
                 :tasks="tasksByStatus[status]"
                 :loading="loading"
                 @panel:edit="toggle"
-                @task:mark-done="markTaskDone"
+                @task:mark-as-status="markTaskAsStatus"
                 @dnd:locally="moveTasksLocally"
                 @dnd:globally="moveTask"
             />
@@ -49,21 +49,21 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useNotifications } from '../composables/useNotifications';
-import { useTasks } from '../composables/useTasks';
-import { useManageEntityPanel } from '../composables/useManageEntityPanel';
-import type { Status, ActiveStatus, Task } from '../../../shared/types';
+import { useNotifications } from '../shared/composables/useNotifications';
+import { useTasks } from '../modules/tasks/useTasks';
+import { useManageEntityPanel } from '../shared/composables/useManageEntityPanel';
+import type { ActiveStatus, Task } from '../../../shared/types';
 
-import BoardTemplate from '../components/templates/BoardTemplate.vue';
-import TaskManagePanel from '../components/organisms/panels/TaskManagePanel.vue';
-import BoardColumn from '../components/organisms/BoardColumn.vue';
-import HeaderTemplate from '../components/templates/HeaderTemplate.vue';
+import BoardTemplate from '../shared/layouts/BoardTemplate.vue';
+import TaskManagePanel from '../modules/tasks/components/TaskManagePanel.vue';
+import BoardColumn from '../modules/boards/components/BoardColumn.vue';
+import HeaderTemplate from '../shared/layouts/HeaderTemplate.vue';
 import SwitchLanguageButton from '../components/molecules/SwitchLanguageButton.vue';
 import ThemeToggleButton from '../components/molecules/ThemeToggleButton.vue';
 import ProfileButton from '../components/molecules/ProfileButton.vue';
 import UiButton from '../components/atoms/UiButton.vue';
 import AppLink from '../components/molecules/AppLink.vue';
-import Back from '../components/atoms/icons/Back.vue';
+import Back from '../shared/ui/icons/Back.vue';
 
 const props = defineProps<{ boardId: number }>();
 
@@ -77,7 +77,7 @@ const {
     deleteTask,
     getTasks,
     moveTasksLocally,
-    markDone,
+    editStatus,
 } = useTasks(props.boardId);
 
 const { isOpen, editingItem, mode, close, toggle } = useManageEntityPanel<Task>();
@@ -105,7 +105,7 @@ async function moveTask(task: Partial<Task>) {
 
 async function tryToCreateTask(task: Partial<Task>) {
     try {
-        await createTask(task, props.boardId);
+        await createTask(task);
 
         toggle();
 
@@ -119,7 +119,7 @@ async function tryToDeleteTask(taskId: number) {
     try {
         await deleteTask(taskId);
 
-        toggle();
+        close();
 
         await getTasks();
     } catch {
@@ -139,9 +139,9 @@ async function tryToEditTask(updatedTask: Partial<Task>) {
     }
 }
 
-function markTaskDone(taskId: Task['id']) {
+function markTaskAsStatus(taskId: Task['id'], status: Task['status']) {
     close();
-    markDone(taskId);
+    editStatus(taskId, status);
 }
 
 onMounted(getTasks);

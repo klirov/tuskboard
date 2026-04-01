@@ -16,14 +16,15 @@ export function registerBoardsRoutes(app: Hono<AppEnv>) {
             return c.json(ok('User not found', 404));
         }
 
-        const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM boards WHERE user_id = ?', [
-            userId,
-        ]);
+        const [rows] = await pool.query<RowDataPacket[]>(
+            'SELECT * FROM boards WHERE user_id = ? AND is_archived = 0',
+            [userId],
+        );
 
         const boards = rows as Board[];
 
         for (const board of boards) {
-            board.is_archived = !!board.is_archived
+            board.is_archived = !!board.is_archived;
         }
 
         return c.json(ok<Board[]>(boards));

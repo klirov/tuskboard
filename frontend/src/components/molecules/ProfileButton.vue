@@ -5,14 +5,14 @@
         padding="0.5rem 1rem"
         @click="router.push('/profile')"
     >
-        <ProfileIcon class="icon" />
+        <Profile class="icon" />
     </UiButton>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import UiButton from '../atoms/UiButton.vue';
-import ProfileIcon from '../atoms/icons/ProfileIcon.vue';
+import Profile from '../../shared/ui/icons/Profile.vue';
 
 const router = useRouter();
 </script>

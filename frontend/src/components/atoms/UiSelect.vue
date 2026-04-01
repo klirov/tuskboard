@@ -1,6 +1,9 @@
 <template>
     <div class="select-wrapper">
-        <select v-model="model">
+        <select
+            v-model="model"
+            v-bind="$attrs"
+        >
             <option
                 v-if="title"
                 value=""
@@ -21,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+
 const model = defineModel<string>();
 
 type Option = { value: string; label: string };

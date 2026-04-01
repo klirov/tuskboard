@@ -1,8 +1,8 @@
 <template>
     <Transition name="slide-from-left">
         <BoardManagePanel
-            v-if="isOpen"
-            :editingBoard="editingItem"
+            v-if="isOpen && mode"
+            :editing-board="editingItem"
             :mode="mode"
             @panel:close="close"
             @board:create="tryToCreateBoard"
@@ -36,36 +36,36 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import type { Board } from '../../../shared/types';
-import { useUserStore } from '../stores/userStore';
-import { useManageEntityPanel } from '../composables/useManageEntityPanel';
-import { useNotifications } from '../composables/useNotifications';
-import { useBoards } from '../composables/useBoards';
+import { useAuthStore } from '../modules/auth/auth.store';
+import { useBoards } from '../modules/boards/useBoards';
+import { useManageEntityPanel } from '../shared/composables/useManageEntityPanel';
+import { useNotifications } from '../shared/composables/useNotifications';
 
-import HeaderTemplate from '../components/templates/HeaderTemplate.vue';
-import BoardCard from '../components/organisms/BoardCard.vue';
+import UiButton from '../components/atoms/UiButton.vue';
+import ProfileButton from '../components/molecules/ProfileButton.vue';
 import SwitchLanguageButton from '../components/molecules/SwitchLanguageButton.vue';
 import ThemeToggleButton from '../components/molecules/ThemeToggleButton.vue';
-import ProfileButton from '../components/molecules/ProfileButton.vue';
-import UiButton from '../components/atoms/UiButton.vue';
-import BoardManagePanel from '../components/organisms/panels/BoardManagePanel.vue';
+import BoardCard from '../modules/boards/components/BoardCard.vue';
+import BoardManagePanel from '../modules/boards/components/BoardManagePanel.vue';
+import HeaderTemplate from '../shared/layouts/HeaderTemplate.vue';
 
 const router = useRouter();
 
 const { t } = useI18n();
 
-const userStore = useUserStore();
+const userStore = useAuthStore();
 
 const { user } = storeToRefs(userStore);
 
 const { isOpen, editingItem, mode, close, toggle } = useManageEntityPanel<Board>();
 
 const { boards, loading, getBoards, createBoard, editBoard, deleteBoard } = useBoards(
-    user.value?.id ?? null,
+    user.value!.id,
 );
 
 const { showNotification } = useNotifications();

@@ -1,8 +1,15 @@
 <template>
-    <input type="checkbox" />
+    <input
+        type="checkbox"
+        v-bind="$attrs"
+        v-model="model"
+    />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const model = defineModel<boolean>();
+defineOptions({ inheritAttrs: false });
+</script>
 
 <style scoped>
 input {

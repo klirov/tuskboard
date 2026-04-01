@@ -2,11 +2,11 @@
     <UiPopover>
         <p v-if="confirmationText">{{ confirmationText }}</p>
         <div class="btns">
-            <UiButton @click="emits('popover:cancel')">{{t('no')}}</UiButton>
+            <UiButton @click="emits('popover:cancel')">{{ t('no') }}</UiButton>
             <UiButton
                 background-color="var(--color-danger)"
                 @click="emits('popover:confirm')"
-                >{{t('yes')}}</UiButton
+                >{{ t('yes') }}</UiButton
             >
         </div>
     </UiPopover>

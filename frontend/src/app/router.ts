@@ -6,9 +6,9 @@ import {
     type RouteLocationNormalizedLoaded,
     type RouteRecordRaw,
 } from 'vue-router';
-import { useUserStore } from '../stores/userStore';
-import { useBoards } from '../composables/useBoards';
-import { useAuth } from '../composables/useAuth';
+import { useAuthStore } from '../modules/auth/auth.store';
+import { useAuth } from '../modules/auth/useAuth';
+import { useBoards } from '../modules/boards/useBoards';
 
 const routes: RouteRecordRaw[] = [
     { path: '/', component: () => import('../pages/Home.vue') },
@@ -46,7 +46,7 @@ export const router = createRouter({
 
 router.beforeEach(
     async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext) => {
-        const userStore = useUserStore();
+        const userStore = useAuthStore();
 
         if (!userStore.user) {
             try {

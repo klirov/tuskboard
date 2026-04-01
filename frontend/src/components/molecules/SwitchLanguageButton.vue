@@ -2,7 +2,7 @@
     <div class="language-switcher">
         <UiButton height="100%">
             <span class="name">{{ currentLang?.name }}</span>
-            <ArrowIcon class="arrow" />
+            <Arrow class="arrow" />
         </UiButton>
         <ul class="dropdown">
             <li
@@ -11,7 +11,7 @@
                 :class="{ active: lang.code === locale }"
                 @click="select(lang.code)"
             >
-                <FlagIcon :src="lang.flag" />
+                <Flag :src="lang.flag" />
                 <span class="name">{{ lang.name }}</span>
             </li>
         </ul>
@@ -21,12 +21,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useLocale } from '../../composables/useLocale';
-import ArrowIcon from '../atoms/icons/ArrowIcon.vue';
+import { useLocale } from '../../core/theme/useLocale';
+import Arrow from '../../shared/ui/icons/Arrow.vue';
 import UiButton from '../atoms/UiButton.vue';
-import FlagIcon from '../atoms/icons/FlagIcon.vue';
-import ruFlag from '../../flags/ru.svg?url';
-import gbFlag from '../../flags/gb.svg?url';
+import Flag from '../../shared/ui/icons/Flag.vue';
+import ruFlag from '../../core/i18n/flags/ru.svg?url'
+import gbFlag from '../../core/i18n/flags/gb.svg?url';
 
 const { locale } = useI18n();
 const { setLocale } = useLocale();
